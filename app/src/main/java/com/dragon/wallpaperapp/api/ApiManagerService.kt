@@ -23,12 +23,11 @@ interface ApiManagerService {
     @GET
     fun getRanking(@Url url: String): Observable<RankingApiModel>
 
-
-    //获取爱壁纸接口
+    //获取推荐壁纸
     @GET
     fun getRecommend(@Url url: String): Observable<RecommendApiModel>
 
-    //获取爱壁纸接口
+    //获取分类壁纸
     @GET
     fun getCategory(@Url url: String): Observable<CategoryApiModel>
 }

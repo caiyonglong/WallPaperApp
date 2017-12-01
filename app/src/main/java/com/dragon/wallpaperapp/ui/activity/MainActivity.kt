@@ -27,9 +27,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         bottomNavigationBar = findViewById<View>(R.id.bottom_navigation_bar) as BottomNavigationBar
 
         bottomNavigationBar!!
-                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, "index").setActiveColor(R.color.teal_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "wallpaper").setActiveColor(R.color.orange_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "category").setActiveColor(R.color.blue_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, "index").setActiveColorResource(R.color.teal_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "wallpaper").setActiveColorResource(R.color.orange_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "category").setActiveColorResource(R.color.blue_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "category").setActiveColorResource(R.color.blue_500))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise()
 
