@@ -17,5 +17,6 @@ interface RecommendContract {
 
     interface Presenter : IBasePresenter<View> {
         fun getRecommend(url: String)
+        fun getNext()
     }
 }
