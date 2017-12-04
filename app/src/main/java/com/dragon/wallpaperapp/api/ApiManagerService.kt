@@ -15,6 +15,22 @@ import retrofit2.http.Url
 
 interface ApiManagerService {
 
+    /**
+     *
+     * 最新
+    http://service.aibizhi.adesk.com/v1/vertical/vertical?limit=30&adult=false&first=1&order=new
+        主页
+    http://service.aibizhi.adesk.com/v3/homepage?limit=30&adult=false&did=867919026491418&first=1&order=hot
+
+    热门
+    http://service.aibizhi.adesk.com/v3/wallpaper?limit=30&adult=false&first=1&order=hot
+
+    分类
+    http://service.aibizhi.adesk.com/v1/wallpaper/category?adult=false&first=1
+
+    http://service.aibizhi.adesk.com/v1/vertical/category/4e4d610cdf714d2966000000/vertical?limit=10&adult=false&first=1&order=new
+
+     */
     //获取爱壁纸接口
     @GET("baidu_rom.php")
     fun wallpaperApi(): Observable<WallpaperApiModel>
