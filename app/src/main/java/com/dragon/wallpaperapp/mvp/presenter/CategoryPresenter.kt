@@ -3,7 +3,12 @@ package com.dragon.wallpaperapp.mvp.presenter
 import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Message
+import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.CategoryContract
+import com.dragon.wallpaperapp.mvp.model.CategoryApiModel
+import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -12,14 +17,8 @@ import com.dragon.wallpaperapp.mvp.contract.CategoryContract
 
 class CategoryPresenter : CategoryContract.Presenter {
 
-    var mView: CategoryContract.View? = null
-    var mHandler: Handler? = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-            msg?.data?.get("Category")
-        }
-    }
+
+    lateinit var mView: CategoryContract.View
 
     override fun unsubscribe() {
 
@@ -34,4 +33,18 @@ class CategoryPresenter : CategoryContract.Presenter {
 
     override fun subscribe() {
     }
+
+    override fun getCategory() {
+        ApiManager.instance
+                .apiService
+                .getCategoryInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ t: CategoryApiModel ->
+                    mView.showCategory(t.res?.category)
+                }, { e: Throwable ->
+                    mView.showError(e.message!!)
+                })
+    }
+
 }

@@ -1,10 +1,8 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
-import android.util.Log
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.HomePageContract
-import com.dragon.wallpaperapp.mvp.model.ApiModel
-import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
+import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -14,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 
 class HomePagePresenter : HomePageContract.Presenter {
 
-    var mView: HomePageContract.View? = null
+    lateinit var mView: HomePageContract.View
 
     override fun subscribe() {
     }
@@ -27,26 +25,18 @@ class HomePagePresenter : HomePageContract.Presenter {
     }
 
     override fun detachView() {
-        if (mView != null)
-            mView = null
     }
 
     override fun getWallpaper() {
         ApiManager.instance
                 .apiService
-                .wallpaperApi()
+                .getHomePageInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t: WallpaperApiModel ->
-                    Log.e("TAG", t.toString())
-                    ApiModel.Bander = t.banner
-                    ApiModel.Ranking = t.ranking
-                    ApiModel.Wallpaper = t.wallpaper
-                    mView?.showSpecial(t.special!!)
-                    mView?.showCategory(t.category!!)
-                    mView?.showEveryDay(t.everyday!!)
+                .subscribe({ t: HomePageApiModel ->
+                    mView.showWallpaper(t.res?.vertical)
                 }, { e: Throwable ->
-                    mView?.showError(e.message!!)
+                    mView.showError(e.message!!)
                 })
     }
 

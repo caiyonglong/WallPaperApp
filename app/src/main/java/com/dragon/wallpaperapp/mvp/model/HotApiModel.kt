@@ -9,14 +9,6 @@ class HotApiModel {
     var res: ResBean? = null
 
     class ResBean {
-        var wallpaper: List<WallpaperBean>? = null
-
-        class WallpaperBean {
-
-            var preview: String? = null
-            var thumb: String? = null
-            var img: String? = null
-            var wp: String? = null
-        }
+        var wallpaper: List<Wallpaper>? = null
     }
 }

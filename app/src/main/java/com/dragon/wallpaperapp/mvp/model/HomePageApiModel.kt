@@ -8,7 +8,7 @@ class HomePageApiModel(var msg: String? = null, var res: ResBean? = null) {
 
     class ResBean {
         var homepage: List<HomepageBean>? = null
-        var vertical: List<VerticalBean>? = null
+        var vertical: List<Wallpaper>? = null
 
         class HomepageBean {
             var type: Int = 0
@@ -31,11 +31,5 @@ class HomePageApiModel(var msg: String? = null, var res: ResBean? = null) {
             }
         }
 
-        class VerticalBean {
-            var preview: String? = null
-            var thumb: String? = null
-            var img: String? = null
-            var wp: String? = null
-        }
     }
 }

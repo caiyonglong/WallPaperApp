@@ -14,6 +14,7 @@ import com.dragon.wallpaperapp.mvp.model.WallpaperDetailModel
 import com.dragon.wallpaperapp.mvp.presenter.RankingPresenter
 import com.dragon.wallpaperapp.ui.adapter.RankingAdapter
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import kotlinx.android.synthetic.main.fragment_homepage.*
 
 
 /**
@@ -25,11 +26,9 @@ class RankingFragment : Fragment(), RankingContract.View {
 
     var mPresenter: RankingPresenter = RankingPresenter()
 
-    private lateinit var mRecyclerView: RecyclerView
 
     private lateinit var mAdapter: RankingAdapter
 
-    lateinit var mSmartRefreshLayout: SmartRefreshLayout
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,12 +38,9 @@ class RankingFragment : Fragment(), RankingContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        mRecyclerView = view.findViewById<View>(R.id.rv_list) as RecyclerView
-        mSmartRefreshLayout = view.findViewById<View>(R.id.refreshLayout) as SmartRefreshLayout
-
-        mRecyclerView.layoutManager = GridLayoutManager(activity, 3)
+        recyclerView.layoutManager = GridLayoutManager(activity, 3)
         mAdapter = RankingAdapter(null)
-        mRecyclerView.adapter = mAdapter
+        recyclerView.adapter = mAdapter
 
         mPresenter.attachView(this)
         if (ApiModel.Ranking != null)

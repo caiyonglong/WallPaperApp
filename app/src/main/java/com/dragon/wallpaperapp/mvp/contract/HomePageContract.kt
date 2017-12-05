@@ -2,7 +2,7 @@ package com.dragon.wallpaperapp.mvp.contract
 
 import com.dragon.wallpaperapp.mvp.base.IBasePresenter
 import com.dragon.wallpaperapp.mvp.base.IBaseView
-import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
+import com.dragon.wallpaperapp.mvp.model.Wallpaper
 
 /**
  * Created by D22434 on 2017/11/28.
@@ -11,11 +11,7 @@ import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
 interface HomePageContract {
 
     interface View : IBaseView {
-        fun showSpecial(bander: List<WallpaperApiModel.SpecialBean>)
-
-        fun showCategory(categoryList: List<WallpaperApiModel.CategoryBean>)
-
-        fun showEveryDay(categoryList: List<WallpaperApiModel.EverydayBean>)
+        fun showWallpaper(wallpapers: List<Wallpaper>?)
 
         fun showError(error: String)
 
