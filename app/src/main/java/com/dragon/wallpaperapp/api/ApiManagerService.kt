@@ -2,9 +2,9 @@ package com.dragon.wallpaperapp.api
 
 
 import com.dragon.wallpaperapp.mvp.model.CategoryApiModel
+import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
 import com.dragon.wallpaperapp.mvp.model.RankingApiModel
 import com.dragon.wallpaperapp.mvp.model.RecommendApiModel
-import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Url
@@ -31,9 +31,10 @@ interface ApiManagerService {
     http://service.aibizhi.adesk.com/v1/vertical/category/4e4d610cdf714d2966000000/vertical?limit=10&adult=false&first=1&order=new
 
      */
-    //获取爱壁纸接口
-    @GET("baidu_rom.php")
-    fun wallpaperApi(): Observable<WallpaperApiModel>
+
+    //获取homepage数据
+    @GET("v3/homepage?limit=30&adult=false&did=867919026491418&first=1&order=hot")
+    fun getHomePageInfo(): Observable<HomePageApiModel>
 
     //获取爱壁纸接口
     @GET

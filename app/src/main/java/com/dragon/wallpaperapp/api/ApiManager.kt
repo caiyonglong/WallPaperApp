@@ -23,7 +23,7 @@ class ApiManager private constructor() {
 
     companion object {
 
-        private val BASE_URL = "http://open.lovebizhi.com/"
+        private val BASE_URL = "http://service.aibizhi.adesk.com/"
 
 
         private var sApiManager: ApiManager? = null
