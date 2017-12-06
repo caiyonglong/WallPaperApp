@@ -27,10 +27,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         bottomNavigationBar = findViewById<View>(R.id.bottom_navigation_bar) as BottomNavigationBar
 
         bottomNavigationBar!!
-                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, "index").setActiveColorResource(R.color.teal_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "wallpaper").setActiveColorResource(R.color.orange_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "category").setActiveColorResource(R.color.blue_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, "category").setActiveColorResource(R.color.blue_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, R.string.wp_homepage).setActiveColorResource(R.color.teal_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_category).setActiveColorResource(R.color.orange_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_new).setActiveColorResource(R.color.blue_500))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise()
 
@@ -46,7 +45,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
     private fun setDefaultFragment() {
         val fm = supportFragmentManager
         val transaction = fm.beginTransaction()
-        mHomePageFragment = HomePageFragment()
+        if (mHomePageFragment == null)
+            mHomePageFragment = HomePageFragment()
         transaction.replace(R.id.fragment_container, mHomePageFragment)
         transaction.commit()
     }
@@ -54,7 +54,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
     private fun initCategoryFragment() {
         val fm = supportFragmentManager
         val transaction = fm.beginTransaction()
-        mCategoryFragment = CategoryFragment()
+        if (mCategoryFragment == null)
+            mCategoryFragment = CategoryFragment()
         transaction.replace(R.id.fragment_container, mCategoryFragment)
         transaction.commit()
     }
@@ -62,7 +63,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
     private fun initRankingFragment() {
         val fm = supportFragmentManager
         val transaction = fm.beginTransaction()
-        mRankingFragment = RankingFragment()
+        if (mRankingFragment == null)
+            mRankingFragment = RankingFragment()
         transaction.replace(R.id.fragment_container, mRankingFragment)
         transaction.commit()
     }

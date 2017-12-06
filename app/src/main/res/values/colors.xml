@@ -19,6 +19,9 @@
 <resources>
     <color name="colorPrimary">#2196F3</color>
 
+    <color name="white">#ffffff</color>
+
+
     <color name="wallpaper_picker_translucent_gray">#66000000</color>
     <color name="orange_500">#FF9800</color>
     <color name="teal_500">#009688</color>

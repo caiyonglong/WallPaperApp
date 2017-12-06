@@ -3,7 +3,6 @@ package com.dragon.wallpaperapp.ui.fragment;
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.dragon.wallpaperapp.mvp.model.ApiModel
 import com.dragon.wallpaperapp.mvp.model.WallpaperDetailModel
 import com.dragon.wallpaperapp.mvp.presenter.RecommendPresenter
 import com.dragon.wallpaperapp.ui.adapter.RankingAdapter
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import kotlinx.android.synthetic.main.fragment_homepage.*
 
 

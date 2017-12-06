@@ -13,7 +13,6 @@ import com.dragon.wallpaperapp.mvp.model.ApiModel
 import com.dragon.wallpaperapp.mvp.model.WallpaperDetailModel
 import com.dragon.wallpaperapp.mvp.presenter.RankingPresenter
 import com.dragon.wallpaperapp.ui.adapter.RankingAdapter
-import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import kotlinx.android.synthetic.main.fragment_homepage.*
 
 
