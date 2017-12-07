@@ -1,12 +1,8 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
-import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Message
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.CategoryContract
 import com.dragon.wallpaperapp.mvp.model.CategoryApiModel
-import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -37,7 +33,7 @@ class CategoryPresenter : CategoryContract.Presenter {
     override fun getCategory() {
         ApiManager.instance
                 .apiService
-                .getCategoryInfo()
+                .getCategoryList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: CategoryApiModel ->

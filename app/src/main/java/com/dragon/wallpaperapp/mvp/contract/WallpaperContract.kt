@@ -8,7 +8,7 @@ import com.dragon.wallpaperapp.mvp.model.Wallpaper
  * Created by D22434 on 2017/11/28.
  */
 
-interface HomePageContract {
+interface WallpaperContract {
 
     interface View : IBaseView {
         fun showWallpaper(wallpapers: List<Wallpaper>?)
@@ -18,6 +18,6 @@ interface HomePageContract {
     }
 
     interface Presenter : IBasePresenter<View> {
-        fun getWallpaper(limit: Int, skip: Int, order: String)
+        fun getWallpaper(cate_id: String, limit: Int, skip: Int, order: String)
     }
 }

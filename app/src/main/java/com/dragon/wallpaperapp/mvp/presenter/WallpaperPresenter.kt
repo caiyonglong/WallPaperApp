@@ -1,9 +1,10 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
-import android.util.Log
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.HomePageContract
+import com.dragon.wallpaperapp.mvp.contract.WallpaperContract
 import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
+import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -11,9 +12,9 @@ import io.reactivex.schedulers.Schedulers
  * Created by D22434 on 2017/11/28.
  */
 
-class HomePagePresenter : HomePageContract.Presenter {
+class WallpaperPresenter : WallpaperContract.Presenter {
 
-    lateinit var mView: HomePageContract.View
+    lateinit var mView: WallpaperContract.View
 
     override fun subscribe() {
     }
@@ -21,26 +22,25 @@ class HomePagePresenter : HomePageContract.Presenter {
     override fun unsubscribe() {
     }
 
-    override fun attachView(view: HomePageContract.View) {
+    override fun attachView(view: WallpaperContract.View) {
         mView = view
     }
 
     override fun detachView() {
     }
 
-    override fun getWallpaper(limit: Int, skip: Int, order: String) {
+    override fun getWallpaper(cate_id: String, limit: Int, skip: Int, order: String) {
         var map: Map<String, Any> = mapOf("limit" to limit,
                 "skip" to skip,
                 "order" to order,
                 "adult" to "false",
                 "first" to "0")
-        Log.e("TAG", map.toString() + "_-")
         ApiManager.instance
                 .apiService
-                .getHomePageInfo(map as Map<String, String>)
+                .getWallpaperForCate(cate_id, map as Map<String, String>)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t: HomePageApiModel ->
+                .subscribe({ t: WallpaperApiModel ->
                     mView.showWallpaper(t.res?.vertical)
                 }, { e: Throwable ->
                     mView.showError(e.message!!)

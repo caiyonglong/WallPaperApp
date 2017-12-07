@@ -1,13 +1,9 @@
 package com.dragon.wallpaperapp.api
 
 
-import com.dragon.wallpaperapp.mvp.model.CategoryApiModel
-import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
-import com.dragon.wallpaperapp.mvp.model.RankingApiModel
-import com.dragon.wallpaperapp.mvp.model.RecommendApiModel
+import com.dragon.wallpaperapp.mvp.model.*
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Url
+import retrofit2.http.*
 
 /**
  * Created by D22434 on 2017/11/28.
@@ -32,17 +28,20 @@ interface ApiManagerService {
 
      */
 
-    //获取homepage数据
-    @GET("v3/homepage?limit=30&adult=false&did=867919026491418&first=1&order=hot")
-    fun getHomePageInfo(): Observable<HomePageApiModel>
+//    http://service.aibizhi.adesk.com/v3/homepage?limit=30&skip=30&adult=false&did=867919026491418&first=0&order=hot
+    //获取homepage数据?limit=30&adult=false&did=867919026491418&first=1&order=hot
+    @GET("v3/homepage")
+    fun getHomePageInfo(@QueryMap map: Map<String, String>): Observable<HomePageApiModel>
 
     //获取homepage数据
     @GET("v1/wallpaper/category?adult=false&first=1")
-    fun getCategoryInfo(): Observable<CategoryApiModel>
+    fun getCategoryList(): Observable<CategoryApiModel>
 
     //获取homepage数据
-    @GET("v1/vertical/category/4e4d610cdf714d2966000000/vertical?limit=10&adult=false&first=1&order=new")
-    fun getWallpaperForCate(): Observable<CategoryApiModel>
+//    @GET("v1/vertical/category/{cate_id}/vertical?limit=10&adult=false&first=1&order=new")
+    @GET("v1/vertical/category/{cate_id}/vertical")
+    fun getWallpaperForCate(@Path("cate_id") cate_id: String,
+                            @QueryMap map: Map<String, String>): Observable<WallpaperApiModel>
 
     //获取爱壁纸接口
     @GET

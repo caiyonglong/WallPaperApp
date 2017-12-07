@@ -30,6 +30,11 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
     lateinit var mAdapter: HomeAdapter
 
+    var mCurrentCounter = 30
+    var TOTAL_COUNTER = 300
+    var isErr = false
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_homepage, container, false)
     }
@@ -42,7 +47,33 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         recyclerView.adapter = mAdapter
 
         mPresenter.attachView(this)
-        mPresenter.getWallpaper()
+        mPresenter.getWallpaper(30, 0, "hot")
+
+        mAdapter.disableLoadMoreIfNotFullPage(recyclerView)
+        mAdapter.setEnableLoadMore(true)
+        mAdapter.isUpFetchEnable = false
+        mAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
+            recyclerView.postDelayed(Runnable {
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    //Data are all loaded.
+                    mAdapter.loadMoreEnd()
+                } else {
+                    if (isErr) {
+                        //Successfully get more data
+                        mPresenter.getWallpaper(30, mCurrentCounter, "hot")
+                        mCurrentCounter = mAdapter.data.size
+                        mAdapter.loadMoreComplete()
+                    } else {
+                        //Get more data failed
+                        isErr = true
+                        mAdapter.loadMoreFail()
+
+                    }
+                }
+            }, 100)
+        }, recyclerView)
+
+
 
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
@@ -54,7 +85,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
     }
 
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {
-        mAdapter.setNewData(wallpapers)
+        wallpapers?.let { mAdapter.data.addAll(it) }
         mAdapter.notifyDataSetChanged()
 
     }
