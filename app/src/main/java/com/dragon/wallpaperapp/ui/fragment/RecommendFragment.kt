@@ -14,7 +14,6 @@ import com.dragon.wallpaperapp.mvp.presenter.RecommendPresenter
 import com.dragon.wallpaperapp.ui.adapter.RankingAdapter
 import kotlinx.android.synthetic.main.fragment_homepage.*
 
-
 /**
  * Created by D22434 on 2017/11/28.
  */

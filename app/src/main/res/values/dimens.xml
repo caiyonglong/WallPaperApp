@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!-- Wallpaper picker -->
+    <!-- Wallpaper picker -->
     <dimen name="wallpaperThumbnailWidth">106.5dp</dimen>
     <dimen name="wallpaperThumbnailHeight">94.5dp</dimen>
     <dimen name="wallpaperItemIconSize">32dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

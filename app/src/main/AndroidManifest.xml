@@ -11,21 +11,25 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/WallpaperApp">
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/wallpaperApp"
             android:theme="@style/WallpaperApp">
-            <intent-filter>
 
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".ui.activity.WallpaperDisplayActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            />
+        <activity android:name=".ui.activity.WallpaperDisplayActivity" />
+        <activity
+            android:name=".ui.activity.CategoryActivity"
+            android:label="@string/title_activity_category" />
+
     </application>
 
 </manifest>

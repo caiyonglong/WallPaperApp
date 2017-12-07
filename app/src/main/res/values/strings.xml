@@ -10,4 +10,9 @@
     <string name="which_wallpaper_option_home_screen">设为桌面</string>
     <string name="which_wallpaper_option_lock_screen">设为锁屏</string>
     <string name="which_wallpaper_option_home_screen_and_lock_screen">同时设置</string>
+    <string name="title_activity_category">CategoryActivity</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

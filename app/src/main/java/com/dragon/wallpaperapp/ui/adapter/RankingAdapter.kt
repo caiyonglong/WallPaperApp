@@ -15,7 +15,7 @@ import com.dragon.wallpaperapp.mvp.model.WallpaperDetailModel
  * Created by D22434 on 2017/11/30.
  */
 
-class RankingAdapter(data: List<WallpaperDetailModel>?) : BaseQuickAdapter<WallpaperDetailModel, BaseViewHolder>(R.layout.item_bander, data) {
+class RankingAdapter(data: List<WallpaperDetailModel>?) : BaseQuickAdapter<WallpaperDetailModel, BaseViewHolder>(R.layout.item_wallpaper, data) {
 
     override fun convert(helper: BaseViewHolder, item: WallpaperDetailModel) {
         Log.e("TAG", item.big)

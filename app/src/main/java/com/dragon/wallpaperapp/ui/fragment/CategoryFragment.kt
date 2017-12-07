@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.contract.CategoryContract
 import com.dragon.wallpaperapp.mvp.model.Category
 import com.dragon.wallpaperapp.mvp.presenter.CategoryPresenter
-import com.dragon.wallpaperapp.ui.activity.WallpaperDisplayActivity
+import com.dragon.wallpaperapp.ui.activity.CategoryActivity
 import com.dragon.wallpaperapp.ui.adapter.CategoryAdapter
 import kotlinx.android.synthetic.main.fragment_homepage.*
 
@@ -41,7 +42,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        recyclerView.layoutManager = GridLayoutManager(activity, 3)
+        recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
         mAdapter = CategoryAdapter(null)
         recyclerView.adapter = mAdapter
 
@@ -75,9 +76,9 @@ class CategoryFragment : Fragment(), CategoryContract.View {
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { mAdapter, view, position ->
             val mCate: Category = mAdapter.data[position] as Category
             Log.e("TAG", mCate.name)
-            var intent = Intent(activity, WallpaperDisplayActivity::class.java)
-            intent.putExtra("name",mCate.name)
-            intent.putExtra("id",mCate.id)
+            var intent = Intent(activity, CategoryActivity::class.java)
+            intent.putExtra("name", mCate.name)
+            intent.putExtra("id", mCate.id)
             startActivity(intent)
         }
     }

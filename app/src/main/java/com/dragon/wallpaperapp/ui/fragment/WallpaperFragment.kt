@@ -23,12 +23,13 @@ import java.util.*
  * Created by D22434 on 2017/11/29.
  */
 
-class HomePageFragment : Fragment(), HomePageContract.View {
+class WallpaperFragment : Fragment(), HomePageContract.View {
 
 
     var mPresenter: HomePagePresenter = HomePagePresenter()
 
     lateinit var mAdapter: HomeAdapter
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_homepage, container, false)
@@ -43,6 +44,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
         mPresenter.attachView(this)
         mPresenter.getWallpaper()
+
 
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data

@@ -15,7 +15,7 @@ import com.dragon.wallpaperapp.mvp.model.Wallpaper
  * Created by D22434 on 2017/11/30.
  */
 
-class HomeAdapter(data: List<Wallpaper>?) : BaseQuickAdapter<Wallpaper, BaseViewHolder>(R.layout.item_bander, data) {
+class HomeAdapter(data: List<Wallpaper>?) : BaseQuickAdapter<Wallpaper, BaseViewHolder>(R.layout.item_wallpaper, data) {
 
     override fun convert(helper: BaseViewHolder, item: Wallpaper) {
 //        helper.setText(R.id.name, item.name)

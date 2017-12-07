@@ -10,7 +10,7 @@ import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
 /**
  * Created by D22434 on 2017/11/29.
  */
-class QuickAdapter(bander: List<WallpaperApiModel.SpecialBean>) : BaseQuickAdapter<WallpaperApiModel.SpecialBean, BaseViewHolder>(R.layout.item_bander) {
+class QuickAdapter(bander: List<WallpaperApiModel.SpecialBean>) : BaseQuickAdapter<WallpaperApiModel.SpecialBean, BaseViewHolder>(R.layout.item_wallpaper) {
 
     @SuppressLint("CheckResult")
     override fun convert(helper: BaseViewHolder, item: WallpaperApiModel.SpecialBean) {
