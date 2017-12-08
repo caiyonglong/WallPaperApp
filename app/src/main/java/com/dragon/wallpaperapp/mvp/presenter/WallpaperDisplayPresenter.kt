@@ -3,6 +3,9 @@ package com.dragon.wallpaperapp.mvp.presenter
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.SimpleTarget
@@ -11,6 +14,7 @@ import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
 import com.dragon.wallpaperapp.mvp.model.Wallpaper
 import java.io.IOException
+
 
 /**
  * Created by D22434 on 2017/12/7.
@@ -57,10 +61,33 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
         setDesktopWallpaper()
     }
 
+    /**
+     * 设置全屏壁纸
+     */
+    fun setFullScreenWallpaper() {
+        val wm = context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val dm = DisplayMetrics()
+        wm.defaultDisplay.getMetrics(dm)
+        val desiredMinimumWidth = dm.widthPixels
+        val desiredMinimumHeight = dm.heightPixels
+        try {
+            Thread.sleep(1000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+
+        mWallManager.suggestDesiredDimensions(desiredMinimumWidth, desiredMinimumHeight)
+//        val bitmap = FileUtil.fitSizePic(File(path))
+        mWallManager.setBitmap(mBitmap)
+    }
+
     //设置桌面壁纸
     private fun setDesktopWallpaper() {
         try {
-            mWallManager.setBitmap(mBitmap)
+            Log.e("wallpaper", "width=${mBitmap!!.width} ==height=${mBitmap!!.height}")
+            setFullScreenWallpaper()
+
+//            mWallManager.setBitmap(mBitmap)
             Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()
