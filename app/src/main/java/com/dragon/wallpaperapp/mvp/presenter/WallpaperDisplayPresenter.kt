@@ -3,13 +3,14 @@ package com.dragon.wallpaperapp.mvp.presenter
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Handler
+import android.widget.Toast
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
 import com.dragon.wallpaperapp.mvp.model.Wallpaper
+import java.io.IOException
 
 /**
  * Created by D22434 on 2017/12/7.
@@ -20,16 +21,7 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
     var context: Context? = null
     var mBitmap: Bitmap? = null
 
-    private val mHideHandler = Handler()
-    private val mHidePart2Runnable = Runnable {
-        mView.setFullScreen()
-    }
-    private val mShowPart2Runnable = Runnable {
-        mView.setNormalScreen()
-    }
-    private var mVisible: Boolean = false
-    private val mHideRunnable = Runnable { hide() }
-
+    private lateinit var mWallManager: WallpaperManager
 
     override fun subscribe() {
     }
@@ -40,7 +32,8 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
     override fun attachView(view: WallpaperDisplayContract.View) {
         mView = view
         context = view as Context
-        mVisible = true
+        mWallManager = WallpaperManager.getInstance(context)
+
     }
 
     override fun detachView() {
@@ -61,40 +54,57 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
     }
 
     override fun setWallpaper() {
-        val mWallManager = WallpaperManager.getInstance(context)
-        mWallManager.setBitmap(mBitmap)
+        setDesktopWallpaper()
     }
 
-    override fun toggle() {
-        if (mVisible) {
-            hide()
-        } else {
-            show()
+    //设置桌面壁纸
+    private fun setDesktopWallpaper() {
+        try {
+            mWallManager.setBitmap(mBitmap)
+            Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
+        } catch (e: IOException) {
+            Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()
         }
+
     }
 
-    private fun hide() {
-        // Hide UI first
-        mView.hide()
-        mVisible = false
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable)
-        mHideHandler.postDelayed(mHidePart2Runnable, 300)
+    //设置锁屏壁纸
+    private fun setLockScreenWallpaper() {
+        try {
+            //获取类名
+            val class1 = mWallManager.javaClass
+            //获取设置锁屏壁纸的函数
+            val setWallPaperMethod = class1.getMethod("setBitmapToLockWallpaper", Bitmap::class.java)
+            //调用锁屏壁纸的函数，并指定壁纸的路径imageFilesPath
+            setWallPaperMethod.invoke(mWallManager, mBitmap)
+            Toast.makeText(context, "锁屏壁纸设置成功", Toast.LENGTH_SHORT).show()
+        } catch (e: Throwable) {
+            Toast.makeText(context, "锁屏壁纸设置失败", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
-    private fun show() {
-        // Show the system bar
-        mView.show()
-        mVisible = true
-        // Schedule a runnable to display UI elements after a delay
-        mHideHandler.removeCallbacks(mHidePart2Runnable)
-        mHideHandler.postDelayed(mShowPart2Runnable, 300)
-    }
+    //设置所有壁纸
+    private fun setAllWallpaper() {
+        try {
+            //获取类名
+            val class1 = mWallManager.javaClass
+            //获取设置锁屏壁纸的函数
+            val setWallPaperMethod = class1.getMethod("setBitmapToLockWallpaper", Bitmap::class.java)
+            //调用锁屏壁纸的函数，并指定壁纸的路径imageFilesPath
+            setWallPaperMethod.invoke(mWallManager, mBitmap)
+            Toast.makeText(context, "锁屏壁纸设置成功", Toast.LENGTH_SHORT).show()
+        } catch (e: Throwable) {
+            Toast.makeText(context, "锁屏壁纸设置失败", Toast.LENGTH_SHORT).show()
+        }
 
-    fun delayedHide(delayMillis: Int) {
-        mHideHandler.removeCallbacks(mHideRunnable)
-        mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
-    }
+        try {
+            mWallManager.setBitmap(mBitmap)
+            Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
+        } catch (e: IOException) {
+            Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()
+        }
 
+    }
 
 }

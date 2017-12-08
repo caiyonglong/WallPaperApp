@@ -34,6 +34,15 @@ class HomePageFragment : Fragment(), HomePageContract.View {
     var TOTAL_COUNTER = 300
     var isErr = false
 
+    companion object {
+        fun newInstance(order: String): HomePageFragment {
+            val args: Bundle = Bundle()
+            args.putString("order", order)
+            val fragment = HomePageFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_homepage, container, false)
@@ -47,7 +56,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         recyclerView.adapter = mAdapter
 
         mPresenter.attachView(this)
-        mPresenter.getWallpaper(30, 0, "hot")
+        mPresenter.getWallpaper(30, 0, arguments.getString("order"))
 
         mAdapter.disableLoadMoreIfNotFullPage(recyclerView)
         mAdapter.setEnableLoadMore(true)

@@ -26,10 +26,9 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallpaper)
+        setFullScreen()
         mPresenter.attachView(this)
         init()
-        cropView.setOnClickListener { mPresenter.toggle() }
-        btn_set_wallpaper.setOnTouchListener(mDelayHideTouchListener)
     }
 
     private fun init() {
@@ -44,11 +43,6 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
             Toast.makeText(this, "设置壁纸中", Toast.LENGTH_SHORT).show()
             mPresenter.setWallpaper()
         }
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        mPresenter.delayedHide(100)
     }
 
     override fun setBitmap(bitmap: Bitmap?) {
@@ -69,7 +63,7 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
 
     }
 
-    override fun setFullScreen() {
+    fun setFullScreen() {
         cropView.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LOW_PROFILE or
                         View.SYSTEM_UI_FLAG_FULLSCREEN or
@@ -77,35 +71,6 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-    }
-
-    override fun setNormalScreen() {
-        actionBar?.show()
-        fullscreen_content_controls.visibility = View.VISIBLE
-    }
-
-    override fun show() {
-        cropView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-    }
-
-    override fun hide() {
-        actionBar?.hide()
-        fullscreen_content_controls.visibility = View.GONE
-    }
-
-    private val mDelayHideTouchListener = View.OnTouchListener { _, _ ->
-        if (AUTO_HIDE) {
-            mPresenter.delayedHide(AUTO_HIDE_DELAY_MILLIS)
-        }
-        false
-    }
-
-    companion object {
-        private val AUTO_HIDE = true
-        private val AUTO_HIDE_DELAY_MILLIS = 3000
-        private val UI_ANIMATION_DELAY = 300
     }
 
 }

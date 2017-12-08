@@ -11,10 +11,6 @@ import com.dragon.wallpaperapp.mvp.model.Wallpaper
 object WallpaperDisplayContract {
 
     interface View : IBaseView {
-        fun setFullScreen()
-        fun setNormalScreen()
-        fun show()
-        fun hide()
         fun showLoading()
         fun hideLoading()
         fun setWallpaper()
@@ -22,7 +18,6 @@ object WallpaperDisplayContract {
     }
 
     interface Presenter : IBasePresenter<View> {
-        fun toggle()
         fun loadData(wallpapers: List<Wallpaper>, position: Int)
         fun setWallpaper()
     }

@@ -9,16 +9,14 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.ui.fragment.CategoryFragment
 import com.dragon.wallpaperapp.ui.fragment.HomePageFragment
-import com.dragon.wallpaperapp.ui.fragment.RankingFragment
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListener {
-    var lastSelectedPosition: Int = 0
-    var bottomNavigationBar: BottomNavigationBar? = null
-    var mCategoryFragment: CategoryFragment? = null
-    var mHomePageFragment: HomePageFragment? = null
-    var mRankingFragment: RankingFragment? = null
-    var TAG: String = "MainActivity"
+    private var lastSelectedPosition: Int = 0
+    private var bottomNavigationBar: BottomNavigationBar? = null
+    private var mCategoryFragment: CategoryFragment? = null
+    private var mHomePageFragment: HomePageFragment? = null
+    private val WALL_TAG: String = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         val fm = supportFragmentManager
         val transaction = fm.beginTransaction()
         if (mHomePageFragment == null)
-            mHomePageFragment = HomePageFragment()
+            mHomePageFragment = HomePageFragment.newInstance("hot")
         transaction.replace(R.id.fragment_container, mHomePageFragment)
         transaction.commit()
     }
@@ -60,17 +58,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         transaction.commit()
     }
 
-    private fun initRankingFragment() {
-        val fm = supportFragmentManager
-        val transaction = fm.beginTransaction()
-        if (mRankingFragment == null)
-            mRankingFragment = RankingFragment()
-        transaction.replace(R.id.fragment_container, mRankingFragment)
-        transaction.commit()
-    }
+//    private fun initRankingFragment() {
+//        val fm = supportFragmentManager
+//        val transaction = fm.beginTransaction()
+//        if (mRankingFragment == null)
+//            mRankingFragment = RankingFragment()
+//        transaction.replace(R.id.fragment_container, mRankingFragment)
+//        transaction.commit()
+//    }
 
     override fun onTabSelected(position: Int) {
-        Log.d(TAG, "onTabSelected() called with: position = [$position]")
+        Log.d(WALL_TAG, "onTabSelected() called with: position = [$position]")
         val fm = this.fragmentManager
         //开启事务
         val transaction = fm.beginTransaction()
@@ -82,7 +80,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
                 initCategoryFragment()
             }
             2 -> {
-                initRankingFragment()
+//                initRankingFragment()
             }
         }
         // 事务提交
@@ -90,11 +88,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
     }
 
     override fun onTabUnselected(position: Int) {
-        Log.d(TAG, "onTabUnselected() called with: position = [$position]")
+        Log.d(WALL_TAG, "onTabUnselected() called with: position = [$position]")
     }
 
     override fun onTabReselected(position: Int) {
-        Log.d(TAG, "onTabUnselected() called with: position = [$position]")
+        Log.d(WALL_TAG, "onTabUnselected() called with: position = [$position]")
     }
 }
 

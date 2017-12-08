@@ -16,14 +16,22 @@ class CategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
         setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        val id: String = intent.getStringExtra("id")
+        val name = intent.getStringExtra("name")
+        Log.e("TAG", "$id---$name")
+        toolbar.title = name
+        setDefaultFragment(id)
+
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-        var id = intent.extras["id"]
-        var name = intent.extras["name"]
-        Log.e("TAG", "$id---$name")
-        setDefaultFragment("$id")
+        toolbar.setNavigationOnClickListener { view ->
+            onBackPressed()
+        }
+
     }
 
     /**

@@ -32,9 +32,11 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
 
     companion object {
         fun newInstance(id: String): WallpaperFragment {
-            val f = WallpaperFragment()
-            f.arguments.putString("cate_id", id)
-            return f
+            val args: Bundle = Bundle()
+            args.putString("cate_id", id)
+            val fragment = WallpaperFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 

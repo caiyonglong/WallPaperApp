@@ -42,7 +42,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
+        recyclerView.layoutManager = GridLayoutManager(activity, 2) as RecyclerView.LayoutManager?
         mAdapter = CategoryAdapter(null)
         recyclerView.adapter = mAdapter
 
