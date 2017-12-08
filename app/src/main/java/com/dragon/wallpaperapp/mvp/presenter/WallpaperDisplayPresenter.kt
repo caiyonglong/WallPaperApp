@@ -5,11 +5,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
+import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
 import com.dragon.wallpaperapp.mvp.model.Wallpaper
@@ -53,6 +56,29 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
                         mBitmap = resource
                         mView.setBitmap(mBitmap)
+                    }
+                })
+        val len = wallpapers.size
+        val lists = ArrayList<ImageView>()
+        (0 until len).mapTo(lists) { getImageView(wallpapers[it].img) }
+        mView.setImageList(lists, position)
+    }
+
+    fun getImageView(imgUrl: String?): ImageView {
+        val imageView = LayoutInflater.from(context).inflate(
+                R.layout.wp_image, null) as ImageView
+        getImageRequest(imageView, imgUrl)
+        return imageView
+    }
+
+    private fun getImageRequest(imageView: ImageView, imgUrl: String?) {
+        GlideApp.with(context)
+                .asBitmap()
+                .load(imgUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(object : SimpleTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
+                        imageView.setImageBitmap(resource)
                     }
                 })
     }

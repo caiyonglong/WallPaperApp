@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
 import com.dragon.wallpaperapp.mvp.model.Wallpaper
 import com.dragon.wallpaperapp.mvp.presenter.WallpaperDisplayPresenter
+import com.dragon.wallpaperapp.ui.adapter.ImageAdapter
 import kotlinx.android.synthetic.main.activity_wallpaper.*
 import java.util.*
 
@@ -22,16 +25,19 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
 
     private var mWallpapers: List<Wallpaper> = ArrayList<Wallpaper>() as List<Wallpaper>
     private var position: Int = -1
+    var mAdapter: ImageAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallpaper)
         setFullScreen()
+        viewpager.offscreenPageLimit = 4
         mPresenter.attachView(this)
         init()
     }
 
     private fun init() {
+
         mWallpapers = intent.getParcelableArrayListExtra("wallpapers")
         position = intent.getIntExtra("position", -1)
         Log.e("TAG", "mWallpaper = " + mWallpapers.size + "poi = " + position)
@@ -47,8 +53,14 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
 
     override fun setBitmap(bitmap: Bitmap?) {
         if (bitmap != null) {
-            cropView.setImageBitmap(bitmap)
+//            cropView.setImageBitmap(bitmap)
         }
+    }
+
+    override fun setImageList(strDrawables: List<ImageView>, position: Int) {
+        mAdapter = ImageAdapter(this, strDrawables)
+        viewpager.adapter = mAdapter
+        viewpager.currentItem = position
     }
 
     override fun showLoading() {
@@ -64,13 +76,8 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
     }
 
     fun setFullScreen() {
-        cropView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     }
 
 }

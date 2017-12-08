@@ -83,7 +83,6 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         }, recyclerView)
 
 
-
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
             val intent = Intent(activity, WallpaperDisplayActivity::class.java)
