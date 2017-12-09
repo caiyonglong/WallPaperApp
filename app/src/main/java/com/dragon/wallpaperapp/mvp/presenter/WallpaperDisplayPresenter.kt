@@ -18,13 +18,14 @@ import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
 import com.dragon.wallpaperapp.mvp.model.Wallpaper
 import java.io.IOException
 
-
 /**
  * Created by D22434 on 2017/12/7.
  */
 class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
 
     lateinit var mView: WallpaperDisplayContract.View
+    lateinit var wallpapers: List<Wallpaper>
+
     var context: Context? = null
     var mBitmap: Bitmap? = null
 
@@ -47,23 +48,24 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
 
     }
 
+    /**
+     * 加载数据
+     * @param wallpapers 所有壁纸
+     * @param position 当前壁纸ID
+     */
     override fun loadData(wallpapers: List<Wallpaper>, position: Int) {
-        GlideApp.with(context)
-                .asBitmap()
-                .load(wallpapers[position].img)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
-                        mBitmap = resource
-                        mView.setBitmap(mBitmap)
-                    }
-                })
+        this.wallpapers = wallpapers
         val len = wallpapers.size
         val lists = ArrayList<ImageView>()
         (0 until len).mapTo(lists) { getImageView(wallpapers[it].img) }
         mView.setImageList(lists, position)
     }
 
+    /**
+     * TODO 获取ImageView控件
+     * @param imgUrl 壁纸地址
+     *
+     */
     fun getImageView(imgUrl: String?): ImageView {
         val imageView = LayoutInflater.from(context).inflate(
                 R.layout.wp_image, null) as ImageView
@@ -71,6 +73,11 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
         return imageView
     }
 
+    /**
+     * TODO 将壁纸显示在 ImageView上
+     * @param imgUrl 壁纸地址
+     *
+     */
     private fun getImageRequest(imageView: ImageView, imgUrl: String?) {
         GlideApp.with(context)
                 .asBitmap()
@@ -83,8 +90,25 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
                 })
     }
 
-    override fun setWallpaper() {
-        setDesktopWallpaper()
+    /**
+     * 设置壁纸 currentItem当前壁纸
+     * which 设置模式
+     */
+    override fun setWallpaper(currentItem: Int, which: Int) {
+        GlideApp.with(context)
+                .asBitmap()
+                .load(wallpapers[currentItem].img)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(object : SimpleTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
+                        mBitmap = resource
+                        when (which) {
+                            0 -> setDesktopWallpaper()
+                            1 -> setLockScreenWallpaper()
+                            2 -> setAllWallpaper()
+                        }
+                    }
+                })
     }
 
     /**
@@ -103,7 +127,6 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
         }
 
         mWallManager.suggestDesiredDimensions(desiredMinimumWidth, desiredMinimumHeight)
-//        val bitmap = FileUtil.fitSizePic(File(path))
         mWallManager.setBitmap(mBitmap)
     }
 
@@ -112,8 +135,6 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
         try {
             Log.e("wallpaper", "width=${mBitmap!!.width} ==height=${mBitmap!!.height}")
             setFullScreenWallpaper()
-
-//            mWallManager.setBitmap(mBitmap)
             Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()
@@ -152,7 +173,7 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
         }
 
         try {
-            mWallManager.setBitmap(mBitmap)
+            setFullScreenWallpaper()
             Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()

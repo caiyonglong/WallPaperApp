@@ -1,7 +1,8 @@
 package com.dragon.wallpaperapp.ui.activity
 
-import android.graphics.Bitmap
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -46,14 +47,12 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
         }
         mPresenter.loadData(mWallpapers, position)
         btn_set_wallpaper.setOnClickListener { v ->
-            Toast.makeText(this, "设置壁纸中", Toast.LENGTH_SHORT).show()
-            mPresenter.setWallpaper()
-        }
-    }
-
-    override fun setBitmap(bitmap: Bitmap?) {
-        if (bitmap != null) {
-//            cropView.setImageBitmap(bitmap)
+            AlertDialog.Builder(this)
+                    .setItems(R.array.which_wallpaper_options, DialogInterface.OnClickListener { dialog, which ->
+                        mPresenter.setWallpaper(viewpager.currentItem, which)
+                    })
+                    .create()
+                    .show()
         }
     }
 

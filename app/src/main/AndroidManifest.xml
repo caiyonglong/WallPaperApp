@@ -18,19 +18,14 @@
             android:name=".ui.activity.MainActivity"
             android:label="@string/wallpaperApp"
             android:theme="@style/WallpaperApp">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".ui.activity.WallpaperDisplayActivity" />
-        <activity
-            android:name=".ui.activity.CategoryActivity"
-            android:label="@string/title_activity_category" />
-
+        <activity android:name=".ui.activity.CategoryActivity" />
     </application>
 
 </manifest>

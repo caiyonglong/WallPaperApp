@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,8 +32,8 @@ class HomePageFragment : Fragment(), HomePageContract.View {
     lateinit var mAdapter: HomeAdapter
 
     var mCurrentCounter = 30
-    var TOTAL_COUNTER = 300
-    var isErr = false
+    var TOTAL_COUNTER = 60
+    var isErr = true
 
     companion object {
         fun newInstance(order: String): HomePageFragment {
@@ -57,6 +58,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
         mPresenter.attachView(this)
         mPresenter.getWallpaper(30, 0, arguments.getString("order"))
+
 
         mAdapter.disableLoadMoreIfNotFullPage(recyclerView)
         mAdapter.setEnableLoadMore(true)
@@ -94,6 +96,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {
         wallpapers?.let { mAdapter.data.addAll(it) }
+        TOTAL_COUNTER = mAdapter.data.size
         mAdapter.notifyDataSetChanged()
 
     }

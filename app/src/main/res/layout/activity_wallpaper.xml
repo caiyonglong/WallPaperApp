@@ -8,11 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/cropView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
     <FrameLayout
         android:id="@+id/fullscreen_content_controls"
         android:layout_width="match_parent"
@@ -29,15 +24,12 @@
             android:indeterminateOnly="true"
             android:visibility="invisible" />
 
-
         <Button
             android:id="@+id/btn_set_wallpaper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_margin="10dp"
-            android:background="@color/orange_500"
-            android:elevation="10dp"
             android:padding="10dp"
             android:text="@string/wallpaper_instructions"
             android:textColor="#000" />

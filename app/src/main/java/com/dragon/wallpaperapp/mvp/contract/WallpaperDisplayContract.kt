@@ -1,6 +1,5 @@
 package com.dragon.wallpaperapp.mvp.contract
 
-import android.graphics.Bitmap
 import android.widget.ImageView
 import com.dragon.wallpaperapp.mvp.base.IBasePresenter
 import com.dragon.wallpaperapp.mvp.base.IBaseView
@@ -15,12 +14,11 @@ object WallpaperDisplayContract {
         fun showLoading()
         fun hideLoading()
         fun setWallpaper()
-        fun setBitmap(bitmap: Bitmap?)
         fun setImageList(strDrawables: List<ImageView>, position: Int)
     }
 
     interface Presenter : IBasePresenter<View> {
         fun loadData(wallpapers: List<Wallpaper>, position: Int)
-        fun setWallpaper()
+        fun setWallpaper(currentItem: Int, which: Int)
     }
 }

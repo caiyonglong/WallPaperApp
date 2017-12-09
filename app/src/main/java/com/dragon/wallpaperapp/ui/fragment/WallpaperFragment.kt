@@ -31,9 +31,10 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     lateinit var mAdapter: HomeAdapter
 
     companion object {
-        fun newInstance(id: String): WallpaperFragment {
+        fun newInstance(id: String, order: String): WallpaperFragment {
             val args: Bundle = Bundle()
             args.putString("cate_id", id)
+            args.putString("order", order)
             val fragment = WallpaperFragment()
             fragment.arguments = args
             return fragment
@@ -53,7 +54,7 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
         recyclerView.adapter = mAdapter
 
         mPresenter.attachView(this)
-        mPresenter.getWallpaper(arguments.getString("cate_id"), 30, 0, "hot")
+        mPresenter.getWallpaper(arguments.getString("cate_id"), 30, 0, arguments.getString("order"))
 
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data

@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         bottomNavigationBar!!
                 .addItem(BottomNavigationItem(R.drawable.ic_photo_library, R.string.wp_homepage).setActiveColorResource(R.color.teal_500))
                 .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_category).setActiveColorResource(R.color.orange_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_new).setActiveColorResource(R.color.blue_500))
+//                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_new).setActiveColorResource(R.color.blue_500))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise()
 

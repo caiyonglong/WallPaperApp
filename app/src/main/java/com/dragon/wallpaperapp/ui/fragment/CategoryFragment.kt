@@ -78,6 +78,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
             Log.e("TAG", mCate.name)
             var intent = Intent(activity, CategoryActivity::class.java)
             intent.putExtra("name", mCate.name)
+            intent.putExtra("cover", mCate.cover)
             intent.putExtra("id", mCate.id)
             startActivity(intent)
         }
