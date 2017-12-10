@@ -31,14 +31,14 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallpaper)
-        setFullScreen()
-        viewpager.offscreenPageLimit = 4
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+
         mPresenter.attachView(this)
         init()
     }
 
     private fun init() {
-
         mWallpapers = intent.getParcelableArrayListExtra("wallpapers")
         position = intent.getIntExtra("position", -1)
         Log.e("TAG", "mWallpaper = " + mWallpapers.size + "poi = " + position)
@@ -46,7 +46,7 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
             return
         }
         mPresenter.loadData(mWallpapers, position)
-        btn_set_wallpaper.setOnClickListener { v ->
+        btn_set_wallpaper.setOnClickListener { _ ->
             AlertDialog.Builder(this)
                     .setItems(R.array.which_wallpaper_options, DialogInterface.OnClickListener { dialog, which ->
                         mPresenter.setWallpaper(viewpager.currentItem, which)
@@ -60,6 +60,7 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
         mAdapter = ImageAdapter(this, strDrawables)
         viewpager.adapter = mAdapter
         viewpager.currentItem = position
+        viewpager.offscreenPageLimit = 3
     }
 
     override fun showLoading() {
@@ -74,9 +75,5 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
 
     }
 
-    fun setFullScreen() {
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-    }
 
 }

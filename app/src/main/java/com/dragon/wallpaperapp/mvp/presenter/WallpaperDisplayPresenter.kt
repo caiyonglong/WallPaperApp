@@ -54,11 +54,14 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
      * @param position 当前壁纸ID
      */
     override fun loadData(wallpapers: List<Wallpaper>, position: Int) {
+        mView.showLoading()
+
         this.wallpapers = wallpapers
         val len = wallpapers.size
         val lists = ArrayList<ImageView>()
         (0 until len).mapTo(lists) { getImageView(wallpapers[it].img) }
         mView.setImageList(lists, position)
+        mView.hideLoading()
     }
 
     /**

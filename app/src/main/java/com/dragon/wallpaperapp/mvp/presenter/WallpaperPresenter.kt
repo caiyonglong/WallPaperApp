@@ -29,7 +29,7 @@ class WallpaperPresenter : WallpaperContract.Presenter {
     override fun detachView() {
     }
 
-    override fun getWallpaper(cate_id: String, limit: Int, skip: Int, order: String) {
+    override fun getWallpaperForCate(cate_id: String, limit: Int, skip: Int, order: String) {
         var map: Map<String, Any> = mapOf("limit" to limit,
                 "skip" to skip,
                 "order" to order,
@@ -38,6 +38,24 @@ class WallpaperPresenter : WallpaperContract.Presenter {
         ApiManager.instance
                 .apiService
                 .getWallpaperForCate(cate_id, map as Map<String, String>)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ t: WallpaperApiModel ->
+                    mView.showWallpaper(t.res?.vertical)
+                }, { e: Throwable ->
+                    mView.showError(e.message!!)
+                })
+    }
+
+    override fun getWallpaper(limit: Int, skip: Int, order: String) {
+        var map: Map<String, Any> = mapOf("limit" to limit,
+                "skip" to skip,
+                "order" to order,
+                "adult" to "false",
+                "first" to "0")
+        ApiManager.instance
+                .apiService
+                .getWallpaper(map as Map<String, String>)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: WallpaperApiModel ->

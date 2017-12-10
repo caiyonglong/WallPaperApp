@@ -9,13 +9,15 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.ui.fragment.CategoryFragment
 import com.dragon.wallpaperapp.ui.fragment.HomePageFragment
+import com.dragon.wallpaperapp.ui.fragment.WallpaperFragment
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListener {
     private var lastSelectedPosition: Int = 0
     private var bottomNavigationBar: BottomNavigationBar? = null
     private var mCategoryFragment: CategoryFragment? = null
-    private var mHomePageFragment: HomePageFragment? = null
+    private var mHotFragment: HomePageFragment? = null
+    private var mNewFragment: WallpaperFragment? = null
     private val WALL_TAG: String = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +27,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         bottomNavigationBar = findViewById<View>(R.id.bottom_navigation_bar) as BottomNavigationBar
 
         bottomNavigationBar!!
-                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, R.string.wp_homepage).setActiveColorResource(R.color.teal_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, R.string.wp_recommend).setActiveColorResource(R.color.teal_500))
+                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, R.string.wp_new).setActiveColorResource(R.color.teal_500))
                 .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_category).setActiveColorResource(R.color.orange_500))
 //                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_new).setActiveColorResource(R.color.blue_500))
                 .setFirstSelectedPosition(lastSelectedPosition)
@@ -43,9 +46,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
     private fun setDefaultFragment() {
         val fm = supportFragmentManager
         val transaction = fm.beginTransaction()
-        if (mHomePageFragment == null)
-            mHomePageFragment = HomePageFragment.newInstance("hot")
-        transaction.replace(R.id.fragment_container, mHomePageFragment)
+        if (mHotFragment == null)
+            mHotFragment = HomePageFragment.newInstance("hot")
+        transaction.replace(R.id.fragment_container, mHotFragment)
         transaction.commit()
     }
 
@@ -58,14 +61,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         transaction.commit()
     }
 
-//    private fun initRankingFragment() {
-//        val fm = supportFragmentManager
-//        val transaction = fm.beginTransaction()
-//        if (mRankingFragment == null)
-//            mRankingFragment = RankingFragment()
-//        transaction.replace(R.id.fragment_container, mRankingFragment)
-//        transaction.commit()
-//    }
+    private fun initNewFragment() {
+        val fm = supportFragmentManager
+        val transaction = fm.beginTransaction()
+        if (mNewFragment == null)
+            mNewFragment = WallpaperFragment.newInstance("", "new", "new")
+        transaction.replace(R.id.fragment_container, mNewFragment)
+        transaction.commit()
+    }
 
     override fun onTabSelected(position: Int) {
         Log.d(WALL_TAG, "onTabSelected() called with: position = [$position]")
@@ -77,10 +80,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
                 setDefaultFragment()
             }
             1 -> {
-                initCategoryFragment()
+                initNewFragment()
             }
             2 -> {
-//                initRankingFragment()
+                initCategoryFragment()
             }
         }
         // 事务提交

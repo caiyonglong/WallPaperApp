@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +52,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        recyclerView.layoutManager = GridLayoutManager(activity, 3)
+        recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
         mAdapter = HomeAdapter(null)
         recyclerView.adapter = mAdapter
 
@@ -71,7 +71,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
                 } else {
                     if (isErr) {
                         //Successfully get more data
-                        mPresenter.getWallpaper(30, mCurrentCounter, "hot")
+                        mPresenter.getWallpaper(30, mCurrentCounter, arguments.getString("order"))
                         mCurrentCounter = mAdapter.data.size
                         mAdapter.loadMoreComplete()
                     } else {
@@ -96,7 +96,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {
         wallpapers?.let { mAdapter.data.addAll(it) }
-        TOTAL_COUNTER = mAdapter.data.size
+        TOTAL_COUNTER = mAdapter.data.size + 30
         mAdapter.notifyDataSetChanged()
 
     }

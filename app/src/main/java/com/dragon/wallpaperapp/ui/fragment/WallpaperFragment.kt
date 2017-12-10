@@ -31,10 +31,11 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     lateinit var mAdapter: HomeAdapter
 
     companion object {
-        fun newInstance(id: String, order: String): WallpaperFragment {
+        fun newInstance(id: String, order: String, type: String): WallpaperFragment {
             val args: Bundle = Bundle()
             args.putString("cate_id", id)
             args.putString("order", order)
+            args.putString("type", type)
             val fragment = WallpaperFragment()
             fragment.arguments = args
             return fragment
@@ -48,14 +49,18 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        Log.e("TAG", arguments.getString("cate_id").toString() + "---")
         recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
         mAdapter = HomeAdapter(null)
         recyclerView.adapter = mAdapter
 
         mPresenter.attachView(this)
-        mPresenter.getWallpaper(arguments.getString("cate_id"), 30, 0, arguments.getString("order"))
 
+        if (arguments["type"] === "new") {
+            mPresenter.getWallpaper(30, 0, arguments.getString("order"))
+        } else {
+            Log.e("TAG", arguments.getString("cate_id").toString() + "---")
+            mPresenter.getWallpaperForCate(arguments.getString("cate_id"), 30, 0, arguments.getString("order"))
+        }
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
             val intent = Intent(activity, WallpaperDisplayActivity::class.java)
