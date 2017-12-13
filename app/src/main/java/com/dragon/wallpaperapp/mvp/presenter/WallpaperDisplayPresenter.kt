@@ -1,18 +1,18 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
+import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Handler
+import android.os.Message
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.WindowManager
-import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
 import com.dragon.wallpaperapp.mvp.model.Wallpaper
@@ -23,10 +23,11 @@ import java.io.IOException
  */
 class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
 
+
     lateinit var mView: WallpaperDisplayContract.View
     lateinit var wallpapers: List<Wallpaper>
 
-    var context: Context? = null
+    lateinit var context: Context
     var mBitmap: Bitmap? = null
 
     private lateinit var mWallManager: WallpaperManager
@@ -54,64 +55,49 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
      * @param position 当前壁纸ID
      */
     override fun loadData(wallpapers: List<Wallpaper>, position: Int) {
-        mView.showLoading()
-
         this.wallpapers = wallpapers
-        val len = wallpapers.size
-        val lists = ArrayList<ImageView>()
-        (0 until len).mapTo(lists) { getImageView(wallpapers[it].img) }
-        mView.setImageList(lists, position)
-        mView.hideLoading()
+        showWallpaper(wallpapers[position].wp)
     }
 
     /**
-     * TODO 获取ImageView控件
-     * @param imgUrl 壁纸地址
-     *
+     * 显示预览
      */
-    fun getImageView(imgUrl: String?): ImageView {
-        val imageView = LayoutInflater.from(context).inflate(
-                R.layout.wp_image, null) as ImageView
-        getImageRequest(imageView, imgUrl)
-        return imageView
-    }
-
-    /**
-     * TODO 将壁纸显示在 ImageView上
-     * @param imgUrl 壁纸地址
-     *
-     */
-    private fun getImageRequest(imageView: ImageView, imgUrl: String?) {
+    private fun showWallpaper(url: String?) {
         GlideApp.with(context)
                 .asBitmap()
-                .load(imgUrl)
+                .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
-                        imageView.setImageBitmap(resource)
+                        mView.preViewWallpaper(resource)
+                        mView.hideLoading()
                     }
                 })
     }
+
+    override fun showPreview(currentImg: String) {
+        mView.showLoading()
+        showWallpaper(currentImg)
+    }
+
 
     /**
      * 设置壁纸 currentItem当前壁纸
      * which 设置模式
      */
-    override fun setWallpaper(currentItem: Int, which: Int) {
+    override fun saveWallpaper(currentImg: String, which: Int) {
         GlideApp.with(context)
                 .asBitmap()
-                .load(wallpapers[currentItem].img)
+                .load(currentImg)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
                         mBitmap = resource
-                        when (which) {
-                            0 -> setDesktopWallpaper()
-                            1 -> setLockScreenWallpaper()
-                            2 -> setAllWallpaper()
-                        }
+                        TaskThread(which).start()
                     }
                 })
+
+
     }
 
     /**
@@ -138,14 +124,16 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
         try {
             Log.e("wallpaper", "width=${mBitmap!!.width} ==height=${mBitmap!!.height}")
             setFullScreenWallpaper()
-            Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(0)
         } catch (e: IOException) {
-            Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(1)
         }
 
     }
 
-    //设置锁屏壁纸
+    /**
+     *  设置锁屏壁纸
+     */
     private fun setLockScreenWallpaper() {
         try {
             //获取类名
@@ -154,9 +142,9 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
             val setWallPaperMethod = class1.getMethod("setBitmapToLockWallpaper", Bitmap::class.java)
             //调用锁屏壁纸的函数，并指定壁纸的路径imageFilesPath
             setWallPaperMethod.invoke(mWallManager, mBitmap)
-            Toast.makeText(context, "锁屏壁纸设置成功", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(2)
         } catch (e: Throwable) {
-            Toast.makeText(context, "锁屏壁纸设置失败", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(3)
         }
 
     }
@@ -170,18 +158,46 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
             val setWallPaperMethod = class1.getMethod("setBitmapToLockWallpaper", Bitmap::class.java)
             //调用锁屏壁纸的函数，并指定壁纸的路径imageFilesPath
             setWallPaperMethod.invoke(mWallManager, mBitmap)
-            Toast.makeText(context, "锁屏壁纸设置成功", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(2)
         } catch (e: Throwable) {
-            Toast.makeText(context, "锁屏壁纸设置失败", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(3)
+
         }
 
         try {
             setFullScreenWallpaper()
-            Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(0)
         } catch (e: IOException) {
-            Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()
+            handler.sendEmptyMessage(1)
         }
-
     }
 
+    var handler: Handler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                0 ->
+                    Toast.makeText(context, "桌面壁纸设置成功", Toast.LENGTH_SHORT).show()
+                1 ->
+                    Toast.makeText(context, "桌面壁纸设置失败", Toast.LENGTH_SHORT).show()
+                2 ->
+                    Toast.makeText(context, "锁屏壁纸设置成功", Toast.LENGTH_SHORT).show()
+                3 ->
+                    Toast.makeText(context, "锁屏壁纸设置失败", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    internal inner class TaskThread(var which: Int) : Thread() {
+        override fun run() {
+            synchronized(which) {
+                when (which) {
+                    0 -> setDesktopWallpaper()
+                    1 -> setLockScreenWallpaper()
+                    2 -> setAllWallpaper()
+                }
+            }
+
+        }
+    };
 }

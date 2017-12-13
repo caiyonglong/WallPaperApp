@@ -17,6 +17,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/wallpaperApp"
+
             android:theme="@style/WallpaperApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.WallpaperDisplayActivity" />
+        <activity
+            android:name=".ui.activity.WallpaperDisplayActivity"
+            android:configChanges="smallestScreenSize|orientation|screenSize|keyboardHidden|screenLayout"
+            android:label="@string/preview_wallpaper" />
         <activity android:name=".ui.activity.CategoryActivity" />
     </application>
 
