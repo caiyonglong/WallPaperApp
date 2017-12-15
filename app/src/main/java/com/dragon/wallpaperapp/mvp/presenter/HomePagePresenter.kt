@@ -1,6 +1,5 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
-import android.util.Log
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.HomePageContract
 import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
@@ -34,7 +33,7 @@ class HomePagePresenter : HomePageContract.Presenter {
                 "order" to order,
                 "adult" to "false",
                 "first" to "0")
-        Log.e("TAG", map.toString() + "_-")
+//        Log.e("TAG", map.toString() + "_-")
         ApiManager.instance
                 .apiService
                 .getHomePageInfo(map as Map<String, String>)

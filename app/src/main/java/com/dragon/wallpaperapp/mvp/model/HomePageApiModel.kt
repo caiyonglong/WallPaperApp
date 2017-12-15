@@ -27,9 +27,32 @@ class HomePageApiModel(var msg: String? = null, var res: ResBean? = null) {
                     var id: String? = null
                     var lcover: String? = null
                     var desc: String? = null
+                    override fun toString(): String {
+                        return "ValueBean(name=$name, cover=$cover, id=$id, lcover=$lcover, desc=$desc)"
+                    }
+
                 }
+
+                override fun toString(): String {
+                    return "ItemsBean(value=$value, target=$target, thumb=$thumb)"
+                }
+
             }
+
+            override fun toString(): String {
+                return "HomepageBean(type=$type, title=$title, items=$items)"
+            }
+
+        }
+
+        override fun toString(): String {
+            return "ResBean(homepage=$homepage, vertical=$vertical)"
         }
 
     }
+
+    override fun toString(): String {
+        return "HomePageApiModel(msg=$msg, res=$res)"
+    }
+
 }

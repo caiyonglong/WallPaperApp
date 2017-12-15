@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/dragon/wallpaperapp/base/BaseActivity.kt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/dragon/wallpaperapp/base/BaseFragment.kt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/dragon/wallpaperapp/base/BasePresenter.kt" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/dragon/wallpaperapp/base/CommonUtils.kt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/dragon/wallpaperapp/base/ExceptionHelper.kt" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/dragon/wallpaperapp/mvp/base/BaseFragment.kt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/src/main/java/com/dragon/lib/Main.java" charset="GBK" />
   </component>
 </project>
