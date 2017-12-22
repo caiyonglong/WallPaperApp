@@ -15,7 +15,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
-import com.dragon.wallpaperapp.mvp.model.Wallpaper
+import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 import java.io.IOException
 
 /**
@@ -63,16 +63,16 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
      * 显示预览
      */
     private fun showWallpaper(url: String?) {
-        GlideApp.with(context)
-                .asBitmap()
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
-                        mView.preViewWallpaper(resource)
-                        mView.hideLoading()
-                    }
-                })
+//        GlideApp.with(context)
+//                .asBitmap()
+//                .load(url)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .into(object : SimpleTarget<Bitmap>() {
+//                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
+//                        mView.preViewWallpaper(resource)
+//                        mView.hideLoading()
+//                    }
+//                })
     }
 
     override fun showPreview(currentImg: String) {

@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.contract.WallpaperContract
-import com.dragon.wallpaperapp.mvp.model.Wallpaper
+import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 import com.dragon.wallpaperapp.mvp.presenter.WallpaperPresenter
 import com.dragon.wallpaperapp.ui.activity.WallpaperDisplayActivity
 import com.dragon.wallpaperapp.ui.adapter.HomeAdapter
@@ -49,10 +49,7 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
-        mAdapter = HomeAdapter(null)
-        recyclerView.adapter = mAdapter
-
+        init()
         mPresenter.attachView(this)
 
         if (arguments["type"] === "new") {
@@ -68,6 +65,12 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
             intent.putParcelableArrayListExtra("wallpapers", mWallpapers as ArrayList<out Parcelable>?)
             startActivity(intent)
         }
+    }
+
+    private fun init() {
+        recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
+        mAdapter = HomeAdapter(null)
+        recyclerView.adapter = mAdapter
     }
 
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {

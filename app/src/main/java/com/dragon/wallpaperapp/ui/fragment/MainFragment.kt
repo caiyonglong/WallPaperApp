@@ -2,13 +2,12 @@ package com.dragon.wallpaperapp.ui.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dragon.wallpaperapp.R
-import com.dragon.wallpaperapp.mvp.presenter.HomePagePresenter
 import kotlinx.android.synthetic.main.fragment_main.*
+import java.util.*
 
 
 /**
@@ -17,9 +16,9 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
-    var mPresenter: HomePagePresenter = HomePagePresenter()
+    var fragments: ArrayList<Fragment> = arrayListOf()
 
-    var fragments: List<Fragment>? = null
+    var titles = arrayOf("推荐", "最新", "分类")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -27,47 +26,19 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
-
         initFragments()
         initTabLayout()
-
-        viewPager.adapter = object : FragmentPagerAdapter(fragmentManager) {
-
-            override fun getCount(): Int {
-                return mTitles.size
-            }
-
-            private val mTitles = arrayOf("最新", "最热")
-
-            override fun getItem(position: Int): Fragment {
-                return if (position == 0) {
-                    WallpaperFragment.newInstance("", "new", "new")
-                } else {
-                    WallpaperFragment.newInstance("", "new", "new")
-                }
-            }
-
-            override fun getPageTitle(position: Int): CharSequence {
-                return mTitles[position]
-            }
-
-        }
-
     }
 
     private fun initFragments() {
-//        var titles:Array<String>
+        fragments = arrayListOf()
+        fragments.add(HomePageFragment.newInstance("new"))
+        fragments.add(WallpaperFragment.newInstance("", "new", "new"))
+        fragments.add(CategoryFragment())
     }
 
     private fun initTabLayout() {
-//        tabLayout.setViewPager(viewPager, fragmentManager, )
-
-//        /** no need to set titles in adapter */
-//        public void setViewPager(ViewPager vp, String[] titles)
-//
-//        /** no need to initialize even adapter */
-//        public void setViewPager(ViewPager vp, String[] titles, FragmentActivity fa, ArrayList<Fragment> fragments)
-
+        tabLayout.setViewPager(viewPager, titles, activity, fragments)
     }
 
 }

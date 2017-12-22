@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.api.GlideApp
-import com.dragon.wallpaperapp.mvp.model.Wallpaper
+import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 
 /**
  * Created by D22434 on 2017/11/30.

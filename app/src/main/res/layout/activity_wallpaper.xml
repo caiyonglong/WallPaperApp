@@ -3,12 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.dragon.wallpaperapp.widgets.CropView
-        android:id="@+id/cropView"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY" />
-
+        android:layout_height="match_parent" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -19,22 +17,6 @@
         android:indeterminate="true"
         android:indeterminateOnly="true"
         android:visibility="invisible" />
-
-
-    <FrameLayout
-        android:id="@+id/wallpaper_scroll_container"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_gravity="bottom"
-        android:background="#11000000"
-        android:fitsSystemWindows="true">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/wallpaper_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </FrameLayout>
 
     <View
         android:layout_width="match_parent"

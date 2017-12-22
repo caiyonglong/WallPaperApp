@@ -1,4 +1,4 @@
-package com.dragon.wallpaperapp.mvp.model
+package com.dragon.wallpaperapp.mvp.model.bean
 
 /**
  * Created by yonglong on 2017/12/5.

@@ -1,4 +1,4 @@
-package com.dragon.wallpaperapp.mvp.model
+package com.dragon.wallpaperapp.mvp.model.bean
 
 import android.os.Parcel
 import android.os.Parcelable

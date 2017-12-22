@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.contract.CategoryContract
-import com.dragon.wallpaperapp.mvp.model.Category
+import com.dragon.wallpaperapp.mvp.model.bean.Category
 import com.dragon.wallpaperapp.mvp.presenter.CategoryPresenter
 import com.dragon.wallpaperapp.ui.activity.CategoryActivity
 import com.dragon.wallpaperapp.ui.adapter.CategoryAdapter

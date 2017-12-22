@@ -3,106 +3,103 @@ package com.dragon.wallpaperapp.ui.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
-import com.ashokvarma.bottomnavigation.BottomNavigationBar
-import com.ashokvarma.bottomnavigation.BottomNavigationItem
+import android.view.KeyEvent
+import android.widget.Toast
 import com.dragon.wallpaperapp.R
+import com.dragon.wallpaperapp.mvp.model.bean.TabEntity
 import com.dragon.wallpaperapp.ui.fragment.CategoryFragment
-import com.dragon.wallpaperapp.ui.fragment.HomePageFragment
-import com.dragon.wallpaperapp.ui.fragment.WallpaperFragment
+import com.dragon.wallpaperapp.ui.fragment.MainFragment
+import com.flyco.tablayout.listener.CustomTabEntity
+import com.flyco.tablayout.listener.OnTabSelectListener
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListener {
-    private var lastSelectedPosition: Int = 0
-    private var bottomNavigationBar: BottomNavigationBar? = null
+class MainActivity : AppCompatActivity() {
+    private var defaultIndex: Int = 0
     private var mCategoryFragment: CategoryFragment? = null
-    private var mHotFragment: HomePageFragment? = null
-    private var mNewFragment: WallpaperFragment? = null
-    private val WALL_TAG: String = "MainActivity"
+    private var mHotFragment: MainFragment? = null
+    private val TAG: String = "MainActivity"
+
+    private var mTabEntities: ArrayList<CustomTabEntity> = arrayListOf()
+
+    var titles = arrayOf("壁纸", "电影天堂")
+    var checked = intArrayOf(R.drawable.ic_photo_library, R.drawable.ic_wallpaper)
+    var normal = intArrayOf(R.drawable.ic_photo_library, R.drawable.ic_wallpaper)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        init()
-
-        bottomNavigationBar = findViewById<View>(R.id.bottom_navigation_bar) as BottomNavigationBar
-
-        bottomNavigationBar!!
-                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, R.string.wp_recommend).setActiveColorResource(R.color.teal_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_photo_library, R.string.wp_new).setActiveColorResource(R.color.teal_500))
-                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_category).setActiveColorResource(R.color.orange_500))
-//                .addItem(BottomNavigationItem(R.drawable.ic_wallpaper, R.string.wp_new).setActiveColorResource(R.color.blue_500))
-                .setFirstSelectedPosition(lastSelectedPosition)
-                .initialise()
-
-
-        bottomNavigationBar!!.setTabSelectedListener(this);
-        setDefaultFragment()
-
+        initTabLayout()
+        switchFragment(defaultIndex)
     }
 
-    private fun init() {
-        
+    private fun initTabLayout() {
+        for (i in 0 until titles.size) {
+            mTabEntities.add(TabEntity(titles[i], checked[i], normal[i]))
+        }
+
+        commonTabLayout.setTabData(mTabEntities)
+        commonTabLayout.setOnTabSelectListener(object : OnTabSelectListener {
+            override fun onTabSelect(position: Int) {
+                //TODO 选择
+                switchFragment(position)
+            }
+
+            override fun onTabReselect(position: Int) {
+                //TODO 重选
+            }
+        })
     }
 
-    /**
-     * 设置默认的
-     */
-    private fun setDefaultFragment() {
+
+    private fun switchFragment(position: Int) {
+        Log.d(TAG, "onTabSelected() called with: position = [$position]")
         val fm = supportFragmentManager
-        val transaction = fm.beginTransaction()
-        if (mHotFragment == null)
-            mHotFragment = HomePageFragment.newInstance("hot")
-        transaction.replace(R.id.fragment_container, mHotFragment)
-        transaction.commit()
-    }
-
-    private fun initCategoryFragment() {
-        val fm = supportFragmentManager
-        val transaction = fm.beginTransaction()
-        if (mCategoryFragment == null)
-            mCategoryFragment = CategoryFragment()
-        transaction.replace(R.id.fragment_container, mCategoryFragment)
-        transaction.commit()
-    }
-
-    private fun initNewFragment() {
-        val fm = supportFragmentManager
-        val transaction = fm.beginTransaction()
-        if (mNewFragment == null)
-            mNewFragment = WallpaperFragment.newInstance("", "new", "new")
-        transaction.replace(R.id.fragment_container, mNewFragment)
-        transaction.commit()
-    }
-
-    override fun onTabSelected(position: Int) {
-        Log.d(WALL_TAG, "onTabSelected() called with: position = [$position]")
-        val fm = this.fragmentManager
         //开启事务
         val transaction = fm.beginTransaction()
         when (position) {
             0 -> {
-                setDefaultFragment()
+                if (mHotFragment == null) {
+                    mHotFragment = MainFragment()
+                    transaction.add(R.id.fragment_container, mHotFragment)
+                } else {
+                    transaction.show(mHotFragment)
+                    if (mCategoryFragment != null)
+                        transaction.hide(mCategoryFragment)
+                }
             }
             1 -> {
-                initNewFragment()
-            }
-            2 -> {
-                initCategoryFragment()
+                if (mCategoryFragment == null) {
+                    mCategoryFragment = CategoryFragment()
+                    transaction.add(R.id.fragment_container, mCategoryFragment)
+                } else {
+                    transaction.show(mCategoryFragment)
+                    if (mHotFragment != null)
+                        transaction.hide(mHotFragment)
+                }
             }
         }
+        commonTabLayout.currentTab = position
+        defaultIndex = position
         // 事务提交
-        transaction.commit()
+        transaction.commitAllowingStateLoss()
     }
 
-    override fun onTabUnselected(position: Int) {
-        Log.d(WALL_TAG, "onTabUnselected() called with: position = [$position]")
+    private var mExitTime: Long = 0
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis().minus(mExitTime) <= 2000) {
+                finish()
+            } else {
+                mExitTime = System.currentTimeMillis()
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show()
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
-    override fun onTabReselected(position: Int) {
-        Log.d(WALL_TAG, "onTabUnselected() called with: position = [$position]")
-    }
 }
 
 
