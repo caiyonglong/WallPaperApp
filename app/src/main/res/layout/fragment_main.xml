@@ -8,37 +8,28 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:fitsSystemWindows="true"
+            app:tl_indicator_color="@color/white"
             app:tl_indicator_corner_radius="2dp"
-            app:tl_tab_space_equal="true" />
+            app:tl_tab_space_equal="true"
+            app:tl_textSelectColor="@color/black"
+            app:tl_textUnselectColor="@color/gray" />
     </android.support.design.widget.AppBarLayout>
-
-    <com.dragon.wallpaperapp.mzbanner.MZBannerView
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="45dp"
-        android:elevation="15dp"
-        android:padding="10dp"
-        app:canLoop="true"
-        app:indicatorAlign="center"
-        app:indicatorPaddingLeft="10dp"
-        app:middle_page_cover="true"
-        app:open_mz_mode="true" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/banner">
+        android:layout_height="wrap_content">
 
     </android.support.v4.view.ViewPager>
 </RelativeLayout>

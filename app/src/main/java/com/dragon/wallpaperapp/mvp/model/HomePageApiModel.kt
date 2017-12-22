@@ -19,6 +19,8 @@ class HomePageApiModel(var msg: String? = null, var res: ResBean? = null) {
                 var value: ValueBean? = null
                 var target: String? = null
                 var thumb: String? = null
+                var type: String? = null
+                var id: String? = null
 
                 class ValueBean {
 

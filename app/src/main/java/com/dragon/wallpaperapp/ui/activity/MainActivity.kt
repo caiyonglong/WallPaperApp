@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        init()
+
         bottomNavigationBar = findViewById<View>(R.id.bottom_navigation_bar) as BottomNavigationBar
 
         bottomNavigationBar!!
@@ -38,6 +40,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationBar.OnTabSelectedListe
         bottomNavigationBar!!.setTabSelectedListener(this);
         setDefaultFragment()
 
+    }
+
+    private fun init() {
+        
     }
 
     /**

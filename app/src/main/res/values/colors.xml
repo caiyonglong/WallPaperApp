@@ -9,11 +9,13 @@
 
     <color name="wallpaper_picker_translucent_gray">#66000000</color>
     <color name="orange_500">#FF9800</color>
+    <color name="red_A400">#FF1744</color>
     <color name="teal_500">#009688</color>
     <color name="amber_500">#FFC107</color>
     <color name="yellow_500">#FFEB3B</color>
     <color name="blue_700">#1976D2</color>
     <color name="blue_500">#2196F3</color>
 
-    <color name="black_overlay">#66000000</color>
+    <color name="black">#66000000</color>
+    <color name="gray">#BDBDBD</color>
 </resources>

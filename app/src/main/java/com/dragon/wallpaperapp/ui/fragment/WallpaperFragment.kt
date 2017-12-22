@@ -17,7 +17,7 @@ import com.dragon.wallpaperapp.mvp.model.Wallpaper
 import com.dragon.wallpaperapp.mvp.presenter.WallpaperPresenter
 import com.dragon.wallpaperapp.ui.activity.WallpaperDisplayActivity
 import com.dragon.wallpaperapp.ui.adapter.HomeAdapter
-import kotlinx.android.synthetic.main.fragment_homepage.*
+import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import java.util.*
 
 /**
@@ -43,7 +43,7 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_homepage, container, false)
+        return inflater.inflate(R.layout.fragment_recyclerview, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

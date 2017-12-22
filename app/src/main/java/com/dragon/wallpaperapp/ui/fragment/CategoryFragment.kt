@@ -16,7 +16,7 @@ import com.dragon.wallpaperapp.mvp.model.Category
 import com.dragon.wallpaperapp.mvp.presenter.CategoryPresenter
 import com.dragon.wallpaperapp.ui.activity.CategoryActivity
 import com.dragon.wallpaperapp.ui.adapter.CategoryAdapter
-import kotlinx.android.synthetic.main.fragment_homepage.*
+import kotlinx.android.synthetic.main.fragment_recyclerview.*
 
 
 /**
@@ -36,7 +36,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_homepage, container, false)
+        return inflater.inflate(R.layout.fragment_recyclerview, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
