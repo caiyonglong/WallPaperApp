@@ -16,6 +16,6 @@
     <color name="blue_700">#1976D2</color>
     <color name="blue_500">#2196F3</color>
 
-    <color name="black">#66000000</color>
+    <color name="black">#000000</color>
     <color name="gray">#BDBDBD</color>
 </resources>

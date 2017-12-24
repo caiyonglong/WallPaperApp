@@ -29,7 +29,6 @@ import java.util.*
  */
 class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.View {
 
-
     var mPresenter: WallpaperDisplayPresenter = WallpaperDisplayPresenter()
     private var mWallpapers: List<Wallpaper> = ArrayList<Wallpaper>() as List<Wallpaper>
     private var mPosition: Int = -1
@@ -56,7 +55,6 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
             override fun getCount(): Int {
                 return mWallpapers.size
             }
-
 
             override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
                 container!!.removeView(`object` as View)
@@ -103,11 +101,6 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(holder.findViewById(R.id.cropView))
         }
-
-        // 添加点击事件
-//        holder!!.setOnClickListener { v ->
-//
-//        }
         return holder
     }
 
@@ -131,13 +124,6 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         var orientation = newConfig!!.orientation
-
-        e("TAG", newConfig!!.orientation as String + "---")
-        if (orientation == ORIENTATION_PORTRAIT) {
-
-        } else {
-
-        }
     }
 
     private fun initData() {
@@ -169,7 +155,6 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
     }
 
     override fun preViewWallpaper(mBitmap: Bitmap) {
-//        cropView.setImageBitmap(mBitmap)
     }
 
 }

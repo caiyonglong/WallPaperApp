@@ -39,7 +39,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
     var mPresenter: HomePagePresenter = HomePagePresenter()
     lateinit var mAdapter: HomeAdapter
     var mCurrentCounter = 30
-    var TOTAL_COUNTER = 60
+    var TOTAL_COUNTER = 0
     var isErr = true
 
     companion object {
@@ -64,9 +64,30 @@ class HomePageFragment : Fragment(), HomePageContract.View {
     }
 
     private fun init() {
+        recyclerView.isNestedScrollingEnabled = false
         recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
         mAdapter = HomeAdapter(null)
         recyclerView.adapter = mAdapter
+
+//        mAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
+//            recyclerView.postDelayed(Runnable {
+//                if (mCurrentCounter >= TOTAL_COUNTER) {
+//                    //Data are all loaded.
+//                    mAdapter.loadMoreEnd()
+//                } else {
+//                    if (isErr) {
+//                        //Successfully get more data
+//                        mPresenter.getWallpaper(30, mCurrentCounter, "hot")
+//                        mCurrentCounter = mAdapter.data.size
+//                        mAdapter.loadMoreComplete()
+//                    } else {
+//                        //Get more data failed
+//                        isErr = true
+//                        mAdapter.loadMoreFail()
+//                    }
+//                }
+//            }, 100)
+//        }, recyclerView)
 
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
@@ -79,6 +100,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {
         mAdapter.setNewData(wallpapers)
+        TOTAL_COUNTER = mAdapter.data.size + 30
         mAdapter.notifyDataSetChanged()
     }
 
@@ -113,5 +135,12 @@ class HomePageFragment : Fragment(), HomePageContract.View {
             mView = LayoutInflater.from(p0).inflate(R.layout.item_banner, null)
             return mView as View?
         }
+    }
+
+    override fun showLoading() {
+
+    }
+
+    override fun hideLoading() {
     }
 }

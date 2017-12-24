@@ -1,17 +1,23 @@
 package com.dragon.lib;
 
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class Main {
-    public static void main(String args[]) {
-        String result = ApiUtils.getInfosFromUrl("http://www.dy2018.com/");
-//        String result = "http://www.dy2018.com/";
-//        System.out.println(result);
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+/**
+ * Created by yonglong on 2017/12/23.
+ */
+
+public class RegexUtils {
+    private List<LinkData> regexUrl(String result) {
+        List<LinkData> datas = new ArrayList<>();
+        // 使用Jsoup解析网页内容
         Document document = Jsoup.parse(result);
 
         Elements classes = document.getElementsByClass("co_area2");
@@ -23,5 +29,9 @@ public class Main {
             }
         }
 
+        // 获取文档标题
+//        String title = document.title();
+//        System.out.println(title);
+        return datas;
     }
 }

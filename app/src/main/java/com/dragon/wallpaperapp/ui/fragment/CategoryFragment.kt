@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
 
 class CategoryFragment : Fragment(), CategoryContract.View {
 
-
     var mPresenter: CategoryPresenter = CategoryPresenter()
 
     var mCurrentCounter = 0
@@ -91,6 +90,12 @@ class CategoryFragment : Fragment(), CategoryContract.View {
 
     override fun showError(error: String) {
         Log.e("TAG", error)
+    }
+    override fun showLoading() {
+
+    }
+
+    override fun hideLoading() {
     }
 
 }

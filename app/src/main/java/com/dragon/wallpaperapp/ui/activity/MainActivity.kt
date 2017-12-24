@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.model.bean.TabEntity
 import com.dragon.wallpaperapp.ui.fragment.CategoryFragment
+import com.dragon.wallpaperapp.ui.fragment.FilmFragment
 import com.dragon.wallpaperapp.ui.fragment.MainFragment
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -16,13 +17,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var defaultIndex: Int = 0
-    private var mCategoryFragment: CategoryFragment? = null
+    private var mFilmFragment: FilmFragment? = null
     private var mHotFragment: MainFragment? = null
     private val TAG: String = "MainActivity"
 
     private var mTabEntities: ArrayList<CustomTabEntity> = arrayListOf()
 
-    var titles = arrayOf("壁纸", "电影天堂")
+    var titles = arrayOf("壁纸", "影视")
     var checked = intArrayOf(R.drawable.ic_photo_library, R.drawable.ic_wallpaper)
     var normal = intArrayOf(R.drawable.ic_photo_library, R.drawable.ic_wallpaper)
 
@@ -64,16 +65,16 @@ class MainActivity : AppCompatActivity() {
                     transaction.add(R.id.fragment_container, mHotFragment)
                 } else {
                     transaction.show(mHotFragment)
-                    if (mCategoryFragment != null)
-                        transaction.hide(mCategoryFragment)
+                    if (mFilmFragment != null)
+                        transaction.hide(mFilmFragment)
                 }
             }
             1 -> {
-                if (mCategoryFragment == null) {
-                    mCategoryFragment = CategoryFragment()
-                    transaction.add(R.id.fragment_container, mCategoryFragment)
+                if (mFilmFragment == null) {
+                    mFilmFragment = FilmFragment()
+                    transaction.add(R.id.fragment_container, mFilmFragment)
                 } else {
-                    transaction.show(mCategoryFragment)
+                    transaction.show(mFilmFragment)
                     if (mHotFragment != null)
                         transaction.hide(mHotFragment)
                 }

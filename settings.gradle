@@ -1,1 +1,1 @@
-include ':app', ':lib', ':wallpaperPicker'
+include ':app'

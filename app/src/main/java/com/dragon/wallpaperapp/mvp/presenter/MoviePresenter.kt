@@ -1,22 +1,40 @@
-package com.dragon.wallpaperapp
+package com.dragon.wallpaperapp.mvp.presenter
 
+import android.annotation.SuppressLint
+import android.os.AsyncTask
+import com.dragon.wallpaperapp.mvp.contract.MovieContract
 import com.dragon.wallpaperapp.mvp.model.bean.CategoryFilm
 import com.dragon.wallpaperapp.mvp.model.bean.FilmData
 import org.jsoup.Jsoup
-import org.junit.Test
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.net.URL
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * Created by yonglong on 2017/12/24.
  */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
+class MoviePresenter : MovieContract.Presenter {
+
+    private var films = arrayListOf<CategoryFilm>()
+
+    lateinit var mView: MovieContract.View
+
+    override fun subscribe() {
+
+    }
+
+    override fun unsubscribe() {
+    }
+
+    override fun attachView(view: MovieContract.View) {
+        mView = view
+    }
+
+    override fun detachView() {
+    }
+
+    override fun getData() {
+        MovieLoader().execute()
+    }
+
+    fun getDataFromUrl(): List<CategoryFilm> {
         val result = "http://www.dy2018.com"
         println(result)
         val document = Jsoup.connect(result)
@@ -44,6 +62,21 @@ class ExampleUnitTest {
                 lists.add(data)
             }
             var categoryfilm = CategoryFilm(title, url, lists)
+            films.add(categoryfilm)
+        }
+        return films
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    inner class MovieLoader : AsyncTask<String, Int, List<CategoryFilm>>() {
+
+        override fun doInBackground(vararg params: String?): List<CategoryFilm> {
+            return getDataFromUrl()
+        }
+
+        override fun onPostExecute(result: List<CategoryFilm>?) {
+            super.onPostExecute(result)
+            mView.showMovies(result)
         }
     }
 

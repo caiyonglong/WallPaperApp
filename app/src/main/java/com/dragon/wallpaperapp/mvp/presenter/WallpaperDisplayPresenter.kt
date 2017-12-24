@@ -42,7 +42,6 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
         mView = view
         context = view as Context
         mWallManager = WallpaperManager.getInstance(context)
-
     }
 
     override fun detachView() {
@@ -56,7 +55,6 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
      */
     override fun loadData(wallpapers: List<Wallpaper>, position: Int) {
         this.wallpapers = wallpapers
-        showWallpaper(wallpapers[position].wp)
     }
 
     /**
@@ -76,7 +74,6 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
     }
 
     override fun showPreview(currentImg: String) {
-        mView.showLoading()
         showWallpaper(currentImg)
     }
 
@@ -96,8 +93,6 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
                         TaskThread(which).start()
                     }
                 })
-
-
     }
 
     /**
@@ -197,7 +192,6 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
                     2 -> setAllWallpaper()
                 }
             }
-
         }
-    };
+    }
 }
