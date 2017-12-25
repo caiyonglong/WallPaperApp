@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.dragon.wallpaperapp.mzbanner.MZBannerView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="5dp"
+        android:scrollIndicators="none"
+        app:canLoop="true"
+        app:indicatorAlign="center"
+        app:middle_page_cover="true"
+        app:open_mz_mode="true"
+        tools:targetApi="m" />
+
+</android.support.constraint.ConstraintLayout>

@@ -16,4 +16,5 @@
     <string name="action_settings">设置</string>
     <string name="preview_wallpaper">壁纸预览</string>
     <string name="film">开发中....</string>
+    <string name="load_more"><a href="$s">更多</a></string>
 </resources>

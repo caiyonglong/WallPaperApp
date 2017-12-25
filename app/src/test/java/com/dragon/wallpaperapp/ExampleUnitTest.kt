@@ -1,13 +1,9 @@
 package com.dragon.wallpaperapp
 
-import com.dragon.wallpaperapp.mvp.model.bean.CategoryFilm
+import com.dragon.wallpaperapp.mvp.model.bean.FilmSection
 import com.dragon.wallpaperapp.mvp.model.bean.FilmData
 import org.jsoup.Jsoup
 import org.junit.Test
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.net.URL
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -40,10 +36,13 @@ class ExampleUnitTest {
                 val linktitle = link.select("a").attr("title")
                 val linkHref = link.select("a").attr("href")
                 val linkDate = link.select("span").text()
+                println(linktitle)
+                println(linkHref)
+                println(linkDate)
                 var data = FilmData(linktitle, linkHref, linkDate)
                 lists.add(data)
             }
-            var categoryfilm = CategoryFilm(title, url, lists)
+            var categoryfilm = FilmSection(title, url, lists)
         }
     }
 

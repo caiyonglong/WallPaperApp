@@ -16,8 +16,8 @@
         android:theme="@style/WallpaperApp">
         <activity
             android:name=".ui.activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/wallpaperApp"
-
             android:theme="@style/WallpaperApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +30,7 @@
             android:configChanges="smallestScreenSize|orientation|screenSize|keyboardHidden|screenLayout"
             android:label="@string/preview_wallpaper" />
         <activity android:name=".ui.activity.CategoryActivity" />
+        <activity android:name=".ui.activity.WebViewActivity" />
     </application>
 
 </manifest>

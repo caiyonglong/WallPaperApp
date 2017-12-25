@@ -8,7 +8,7 @@ import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 /**
  * Created by D22434 on 2017/11/28.
  */
-object WallpaperDisplayContract {
+interface WallpaperDisplayContract {
 
     interface View : IBaseView {
         fun preViewWallpaper(mBitmap: Bitmap)

@@ -25,6 +25,7 @@ import com.dragon.wallpaperapp.mzbanner.holder.MZViewHolder
 import com.dragon.wallpaperapp.ui.activity.WallpaperDisplayActivity
 import com.dragon.wallpaperapp.ui.adapter.HomeAdapter
 import com.orhanobut.logger.Logger
+import kotlinx.android.synthetic.main.banner_view.view.*
 import kotlinx.android.synthetic.main.fragment_homepage.*
 import java.util.*
 
@@ -106,12 +107,16 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
     override fun showBanners(banners: List<Banner>) {
         Logger.e(banners.toString())
-        banner.setPages(banners,
+
+        var bannerView: View = layoutInflater.inflate(R.layout.banner_view, recyclerView.parent as ViewGroup, false)
+        bannerView.banner.setPages(banners,
                 MZHolderCreator {
                     BannerViewHolder()
                 }
         )
-        banner.setIndicatorVisible(false)
+        bannerView.banner.setIndicatorVisible(false)
+        mAdapter.addHeaderView(bannerView)
+        mAdapter.notifyDataSetChanged()
     }
 
 

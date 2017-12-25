@@ -3,8 +3,8 @@ package com.dragon.wallpaperapp.mvp.presenter
 import android.annotation.SuppressLint
 import android.os.AsyncTask
 import com.dragon.wallpaperapp.mvp.contract.MovieContract
-import com.dragon.wallpaperapp.mvp.model.bean.CategoryFilm
 import com.dragon.wallpaperapp.mvp.model.bean.FilmData
+import com.dragon.wallpaperapp.mvp.model.bean.FilmSection
 import org.jsoup.Jsoup
 
 /**
@@ -12,7 +12,7 @@ import org.jsoup.Jsoup
  */
 class MoviePresenter : MovieContract.Presenter {
 
-    private var films = arrayListOf<CategoryFilm>()
+    private var films = arrayListOf<FilmSection>()
 
     lateinit var mView: MovieContract.View
 
@@ -34,7 +34,7 @@ class MoviePresenter : MovieContract.Presenter {
         MovieLoader().execute()
     }
 
-    fun getDataFromUrl(): List<CategoryFilm> {
+    fun getDataFromUrl(): List<FilmSection> {
         val result = "http://www.dy2018.com"
         println(result)
         val document = Jsoup.connect(result)
@@ -46,35 +46,43 @@ class MoviePresenter : MovieContract.Presenter {
 
         val classes = document.getElementsByClass("co_area2")
         println(classes.size)
+
+        films.clear()
         for (cate in classes) {
             var title = cate.getElementsByTag("span")[0].text()
             var url = cate.select("em a").attr("href")
             if (!url.contains(result)) {
                 url = result + url
             }
-            var lists = arrayListOf<FilmData>()
+
+            var section = FilmSection(true, title, url)
+            films.add(section)
+
             val links = cate.select("li")
             for (link in links) {
-                val linktitle = link.select("a").attr("title")
-                val linkHref = link.select("a").attr("href")
+                val linkTitle = link.select("a").attr("title")
+                var linkHref = link.select("a").attr("href")
                 val linkDate = link.select("span").text()
-                var data = FilmData(linktitle, linkHref, linkDate)
-                lists.add(data)
+                println(linkTitle)
+                println(linkHref)
+                println(linkDate)
+                if (!linkHref.contains(result)) {
+                    linkHref = result + linkHref
+                }
+                films.add(FilmSection(FilmData(linkTitle, linkDate, linkHref)))
             }
-            var categoryfilm = CategoryFilm(title, url, lists)
-            films.add(categoryfilm)
         }
         return films
     }
 
     @SuppressLint("StaticFieldLeak")
-    inner class MovieLoader : AsyncTask<String, Int, List<CategoryFilm>>() {
+    inner class MovieLoader : AsyncTask<String, Int, List<FilmSection>>() {
 
-        override fun doInBackground(vararg params: String?): List<CategoryFilm> {
+        override fun doInBackground(vararg params: String?): List<FilmSection> {
             return getDataFromUrl()
         }
 
-        override fun onPostExecute(result: List<CategoryFilm>?) {
+        override fun onPostExecute(result: List<FilmSection>?) {
             super.onPostExecute(result)
             mView.showMovies(result)
         }

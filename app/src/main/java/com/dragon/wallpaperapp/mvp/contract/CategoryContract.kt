@@ -7,7 +7,7 @@ import com.dragon.wallpaperapp.mvp.model.bean.Category
 /**
  * Created by D22434 on 2017/11/28.
  */
-object CategoryContract {
+interface CategoryContract {
 
     interface View : IBaseView {
         fun showCategory(categories: List<Category>?)
