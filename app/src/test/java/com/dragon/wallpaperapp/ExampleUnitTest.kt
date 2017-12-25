@@ -1,6 +1,5 @@
 package com.dragon.wallpaperapp
 
-import com.dragon.wallpaperapp.mvp.model.bean.FilmSection
 import com.dragon.wallpaperapp.mvp.model.bean.FilmData
 import org.jsoup.Jsoup
 import org.junit.Test
@@ -42,7 +41,6 @@ class ExampleUnitTest {
                 var data = FilmData(linktitle, linkHref, linkDate)
                 lists.add(data)
             }
-            var categoryfilm = FilmSection(title, url, lists)
         }
     }
 

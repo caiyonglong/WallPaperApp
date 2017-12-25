@@ -2,7 +2,6 @@ package com.dragon.wallpaperapp.ui.activity
 
 import android.content.DialogInterface
 import android.content.res.Configuration
-import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
@@ -71,7 +70,6 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
             }
         }
 
-//        viewPager.setOnScrollChangeListener(o)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -95,7 +93,7 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
         if (mWallpapers!!.isNotEmpty()) {
 //            holder.onBind(container.context, realPosition, mDatas!![realPosition])
             GlideApp.with(this)
-                    .load(mWallpapers.get(position).wp)
+                    .load(mWallpapers[position].img)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .transition(DrawableTransitionOptions.withCrossFade())
