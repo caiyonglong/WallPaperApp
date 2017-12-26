@@ -16,6 +16,7 @@ import com.dragon.wallpaperapp.mvp.model.bean.Category
 import com.dragon.wallpaperapp.mvp.presenter.CategoryPresenter
 import com.dragon.wallpaperapp.ui.activity.CategoryActivity
 import com.dragon.wallpaperapp.ui.adapter.CategoryAdapter
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 
 
@@ -74,7 +75,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
 
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { mAdapter, view, position ->
             val mCate: Category = mAdapter.data[position] as Category
-            Log.e("TAG", mCate.name)
+            Logger.e("TAG", mCate.name)
             var intent = Intent(activity, CategoryActivity::class.java)
             intent.putExtra("name", mCate.name)
             intent.putExtra("cover", mCate.cover)

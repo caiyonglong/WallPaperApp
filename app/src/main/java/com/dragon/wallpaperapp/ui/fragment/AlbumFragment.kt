@@ -19,6 +19,7 @@ import com.dragon.wallpaperapp.mvp.contract.AlbumContract
 import com.dragon.wallpaperapp.mvp.model.Banner
 import com.dragon.wallpaperapp.mvp.model.bean.Album
 import com.dragon.wallpaperapp.mvp.presenter.AlbumPresenter
+import com.dragon.wallpaperapp.mzbanner.MZBannerView
 import com.dragon.wallpaperapp.mzbanner.holder.MZHolderCreator
 import com.dragon.wallpaperapp.mzbanner.holder.MZViewHolder
 import com.dragon.wallpaperapp.ui.activity.CategoryActivity
@@ -93,7 +94,7 @@ class AlbumFragment : Fragment(), AlbumContract.View {
             val intent = Intent(activity, CategoryActivity::class.java)
             intent.putExtra("position", position)
             intent.putExtra("id", mAlbums[position].id)
-            intent.putExtra("cover", mAlbums[position].cover)
+            intent.putExtra("cover", mAlbums[position].lcover)
             intent.putExtra("name", mAlbums[position].name)
             intent.putExtra("type", "album")
             startActivity(intent)
@@ -115,6 +116,19 @@ class AlbumFragment : Fragment(), AlbumContract.View {
                     BannerViewHolder()
                 }
         )
+        bannerView.banner.setBannerPageClickListener(object : MZBannerView.BannerPageClickListener {
+            override fun onPageClick(view: View, position: Int) {
+
+                Logger.e("onPageClick $position")
+                val intent = Intent(context, CategoryActivity::class.java)
+                intent.putExtra("position", position)
+                intent.putExtra("id", banners[position].id)
+                intent.putExtra("cover", banners[position].cover)
+                intent.putExtra("name", banners[position].name)
+                intent.putExtra("type", "album")
+                context.startActivity(intent)
+            }
+        })
         bannerView.banner.setIndicatorVisible(false)
         mAdapter.addHeaderView(bannerView)
         mAdapter.notifyDataSetChanged()
@@ -128,7 +142,6 @@ class AlbumFragment : Fragment(), AlbumContract.View {
     inner class BannerViewHolder : MZViewHolder<Banner> {
         var mView: View? = null
         override fun onBind(p0: Context?, p1: Int, banner: Banner?) {
-//            imageView.setImageBitmap(p2)
             GlideApp.with(context)
                     .load(banner?.lcover)
                     .centerCrop()

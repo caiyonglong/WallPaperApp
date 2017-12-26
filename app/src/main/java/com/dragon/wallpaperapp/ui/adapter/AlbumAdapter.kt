@@ -1,6 +1,5 @@
 package com.dragon.wallpaperapp.ui.adapter
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.model.bean.Album
+import com.orhanobut.logger.Logger
 
 /**
  * Created by D22434 on 2017/11/30.
@@ -21,7 +21,7 @@ class AlbumAdapter(data: List<Album>?) : BaseQuickAdapter<Album, BaseViewHolder>
     override fun convert(helper: BaseViewHolder, item: Album) {
 //        helper.setText(R.id.name, item.name)
 //        helper.setText(R.id.desc, item.desc)
-        Log.e("TAG", item.toString())
+        Logger.e(item.toString())
         // 加载网络图片
         GlideApp.with(mContext)
                 .load(item.cover)

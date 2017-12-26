@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Message
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -16,6 +15,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.contract.WallpaperDisplayContract
 import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
+import com.orhanobut.logger.Logger
 import java.io.IOException
 
 /**
@@ -117,7 +117,7 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
     //设置桌面壁纸
     private fun setDesktopWallpaper() {
         try {
-            Log.e("wallpaper", "width=${mBitmap!!.width} ==height=${mBitmap!!.height}")
+            Logger.e("wallpaper", "width=${mBitmap!!.width} ==height=${mBitmap!!.height}")
             setFullScreenWallpaper()
             handler.sendEmptyMessage(0)
         } catch (e: IOException) {

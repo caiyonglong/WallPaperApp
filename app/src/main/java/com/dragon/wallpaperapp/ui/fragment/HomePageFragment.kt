@@ -20,8 +20,10 @@ import com.dragon.wallpaperapp.mvp.contract.HomePageContract
 import com.dragon.wallpaperapp.mvp.model.Banner
 import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 import com.dragon.wallpaperapp.mvp.presenter.HomePagePresenter
+import com.dragon.wallpaperapp.mzbanner.MZBannerView
 import com.dragon.wallpaperapp.mzbanner.holder.MZHolderCreator
 import com.dragon.wallpaperapp.mzbanner.holder.MZViewHolder
+import com.dragon.wallpaperapp.ui.activity.CategoryActivity
 import com.dragon.wallpaperapp.ui.activity.WallpaperDisplayActivity
 import com.dragon.wallpaperapp.ui.adapter.HomeAdapter
 import com.orhanobut.logger.Logger
@@ -114,6 +116,18 @@ class HomePageFragment : Fragment(), HomePageContract.View {
                     BannerViewHolder()
                 }
         )
+        bannerView.banner.setBannerPageClickListener(object : MZBannerView.BannerPageClickListener {
+            override fun onPageClick(view: View, position: Int) {
+                Logger.e("onPageClick $position")
+                val intent = Intent(context, CategoryActivity::class.java)
+                intent.putExtra("position", position)
+                intent.putExtra("id", banners[position].id)
+                intent.putExtra("cover", banners[position].cover)
+                intent.putExtra("name", banners[position].name)
+                intent.putExtra("type", "album")
+                context.startActivity(intent)
+            }
+        })
         bannerView.banner.setIndicatorVisible(false)
         mAdapter.addHeaderView(bannerView)
         mAdapter.notifyDataSetChanged()

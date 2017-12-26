@@ -487,11 +487,11 @@ class MZBannerView<T> : RelativeLayout {
             if (mDatas == null) {
                 mDatas = ArrayList()
             }
-            //mDatas.add(datas.get(datas.size()-1));// 加入最后一个
+            //mDatas.add(data.get(data.size()-1));// 加入最后一个
             for (t in datas) {
                 mDatas!!.add(t)
             }
-        }// mDatas.add(datas.get(0));//在最后加入最前面一个
+        }// mDatas.add(data.get(0));//在最后加入最前面一个
 
         fun setPageClickListener(pageClickListener: BannerPageClickListener?) {
             mPageClickListener = pageClickListener

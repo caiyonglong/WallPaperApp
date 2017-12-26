@@ -1,10 +1,18 @@
 # WallpaperApp
 ---
 
-    本项目主要采用Kotlin语言编写,学习Kotlin 和适应java8 Lambda表达式的一个工程。结合mvp+rxjava2+retrofit2+glide项目架构，开发的一款小应用。
+本项目主要采用Kotlin语言编写,学习Kotlin 和适应java8 Lambda表达式的一个工程。结合mvp+rxjava2+retrofit2+glide项目架构，开发的一款小应用。
 其中壁纸api主要来自 爱壁纸 应用，使用Fiddler抓取的api，找出有规律的api
-影视来源于电影天堂，使用jsoup抓取网页数据。
+影视来源于电影天堂，使用 **jsoup** 抓取网页数据。
 
+## Preview
+
+![](https://github.com/caiyonglong/WallPaperApp/blob/master/art/p1.png)
+![](https://github.com/caiyonglong/WallPaperApp/blob/master/art/p2.png)
+![](https://github.com/caiyonglong/WallPaperApp/blob/master/art/p3.png)
+![](https://github.com/caiyonglong/WallPaperApp/blob/master/art/p4.png)
+![](https://github.com/caiyonglong/WallPaperApp/blob/master/art/p5.png)
+![](https://github.com/caiyonglong/WallPaperApp/blob/master/art/p6.png)
 
 ## TODO
 

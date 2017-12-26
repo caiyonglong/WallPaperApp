@@ -1,6 +1,6 @@
 package com.dragon.wallpaperapp
 
-import com.dragon.wallpaperapp.mvp.model.bean.FilmData
+import com.dragon.wallpaperapp.mvp.model.bean.Movie
 import org.jsoup.Jsoup
 import org.junit.Test
 
@@ -29,7 +29,7 @@ class ExampleUnitTest {
             if (!url.contains(result)) {
                 url = result + url
             }
-            var lists = arrayListOf<FilmData>()
+            var lists = arrayListOf<Movie>()
             val links = cate.select("li")
             for (link in links) {
                 val linktitle = link.select("a").attr("title")
@@ -38,7 +38,7 @@ class ExampleUnitTest {
                 println(linktitle)
                 println(linkHref)
                 println(linkDate)
-                var data = FilmData(linktitle, linkHref, linkDate)
+                var data = Movie(linktitle, linkHref, linkDate)
                 lists.add(data)
             }
         }

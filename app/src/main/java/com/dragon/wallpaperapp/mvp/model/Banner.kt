@@ -15,5 +15,4 @@ class Banner {
         return "Banner(id='$id', type=$type, thumb='$thumb', lcover='$lcover', cover='$cover', name='$name', desc='$desc')"
     }
 
-
 }

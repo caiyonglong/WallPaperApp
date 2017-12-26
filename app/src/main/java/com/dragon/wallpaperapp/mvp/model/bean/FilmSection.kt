@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.entity.SectionEntity
 /**
  * Created by D22434 on 2017/12/25.
  */
-class FilmSection(var flimData: FilmData?) : SectionEntity<FilmData>(flimData) {
+class FilmSection(var flimData: Movie?) : SectionEntity<Movie>(flimData) {
 
     var url: String = ""
 

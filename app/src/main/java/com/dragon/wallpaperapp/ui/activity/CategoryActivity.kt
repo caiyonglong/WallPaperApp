@@ -55,10 +55,10 @@ class CategoryActivity : AppCompatActivity() {
             private val mTitles = arrayOf("最新", "最热")
 
             override fun getItem(position: Int): Fragment {
-                if (position == 0) {
-                    return WallpaperFragment.newInstance(id, "new", type)
+                return if (position == 0) {
+                    WallpaperFragment.newInstance(id, "new", type)
                 } else {
-                    return WallpaperFragment.newInstance(id, "hot", type)
+                    WallpaperFragment.newInstance(id, "hot", type)
                 }
             }
 

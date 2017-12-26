@@ -36,7 +36,7 @@ class MainFragment : Fragment() {
         fragments.add(HomePageFragment.newInstance("new"))
         fragments.add(WallpaperFragment.newInstance("", "new", "new"))
         fragments.add(CategoryFragment())
-        fragments.add(AlbumFragment.newInstance("hot"))
+        fragments.add(AlbumFragment.newInstance("new"))
         fragments.add(FilmFragment())
     }
 

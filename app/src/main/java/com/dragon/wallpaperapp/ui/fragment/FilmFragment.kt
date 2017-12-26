@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.contract.MovieContract
 import com.dragon.wallpaperapp.mvp.model.bean.FilmSection
+import com.dragon.wallpaperapp.mvp.model.bean.Movie
 import com.dragon.wallpaperapp.mvp.presenter.MoviePresenter
 import com.dragon.wallpaperapp.ui.activity.MovieDetailActivity
 import com.dragon.wallpaperapp.ui.adapter.SectionAdapter
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
  */
 
 class FilmFragment : Fragment(), MovieContract.View {
+
 
     var mPresenter = MoviePresenter()
     var mAdapter = SectionAdapter(R.layout.item_movie, R.layout.item_header, null)
@@ -47,9 +49,10 @@ class FilmFragment : Fragment(), MovieContract.View {
             val intent = Intent(context, MovieDetailActivity::class.java)
             var data = adapter.getItem(position) as FilmSection
             if (data.isHeader) {
-                intent.putExtra(MovieDetailActivity.WEB_URL, data.url)
+//                intent.putExtra(MovieDetailActivity.WEB_URL, data.url)
             } else {
                 intent.putExtra(MovieDetailActivity.WEB_URL, data.flimData?.url)
+                intent.putExtra(MovieDetailActivity.NAME, data.flimData?.title)
             }
             context.startActivity(intent)
         }
@@ -68,8 +71,8 @@ class FilmFragment : Fragment(), MovieContract.View {
     override fun showLoading() {
 
     }
-    override fun showMovies(datas: String) {
+
+    override fun showMovies(data: Movie) {
 
     }
-
 }
