@@ -41,8 +41,9 @@ class HomePageFragment : Fragment(), HomePageContract.View {
 
     var mPresenter: HomePagePresenter = HomePagePresenter()
     lateinit var mAdapter: HomeAdapter
-    var mCurrentCounter = 30
-    var TOTAL_COUNTER = 0
+    private var limit = 30
+    private var skip = 0
+    var currentPage = 1
     var isErr = true
 
     companion object {
@@ -63,7 +64,7 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         super.onViewCreated(view!!, savedInstanceState)
         init()
         mPresenter.attachView(this)
-        mPresenter.getWallpaper(30, 0, arguments.getString("order"))
+        mPresenter.getWallpaper(limit, skip, arguments.getString("order"))
     }
 
     private fun init() {
@@ -72,26 +73,9 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         mAdapter = HomeAdapter(null)
         recyclerView.adapter = mAdapter
 
-//        mAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
-//            recyclerView.postDelayed(Runnable {
-//                if (mCurrentCounter >= TOTAL_COUNTER) {
-//                    //Data are all loaded.
-//                    mAdapter.loadMoreEnd()
-//                } else {
-//                    if (isErr) {
-//                        //Successfully get more data
-//                        mPresenter.getWallpaper(30, mCurrentCounter, "hot")
-//                        mCurrentCounter = mAdapter.data.size
-//                        mAdapter.loadMoreComplete()
-//                    } else {
-//                        //Get more data failed
-//                        isErr = true
-//                        mAdapter.loadMoreFail()
-//                    }
-//                }
-//            }, 100)
-//        }, recyclerView)
-
+        mAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
+            mPresenter.getWallpaper(limit, skip, arguments.getString("order"))
+        }, recyclerView)
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
             val intent = Intent(activity, WallpaperDisplayActivity::class.java)
@@ -101,10 +85,17 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         }
     }
 
-    override fun showWallpaper(wallpapers: List<Wallpaper>?) {
-        mAdapter.setNewData(wallpapers)
-        TOTAL_COUNTER = mAdapter.data.size + 30
-        mAdapter.notifyDataSetChanged()
+    override fun showWallpaper(wallpapers: List<Wallpaper>?, page: Int) {
+        if (page == 0) {
+            mAdapter.setNewData(wallpapers)
+        } else {
+            if (wallpapers != null) {
+                mAdapter.addData(wallpapers)
+                mAdapter.loadMoreComplete()
+            } else {
+                mAdapter.loadMoreEnd()
+            }
+        }
     }
 
     override fun showBanners(banners: List<Banner>) {
@@ -130,12 +121,12 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         })
         bannerView.banner.setIndicatorVisible(false)
         mAdapter.addHeaderView(bannerView)
-        mAdapter.notifyDataSetChanged()
     }
 
 
     override fun showError(error: String) {
-        Log.e("TAG", error)
+        mAdapter.loadMoreFail()
+        Log.e("HomePage", error + "------------------")
     }
 
     inner class BannerViewHolder : MZViewHolder<Banner> {

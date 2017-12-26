@@ -1,5 +1,7 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
+import android.os.Handler
+import android.util.Log
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.HomePageContract
 import com.dragon.wallpaperapp.mvp.model.AlbumApiModel
@@ -8,6 +10,7 @@ import com.dragon.wallpaperapp.mvp.model.Banner
 import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+
 
 /**
  * Created by D22434 on 2017/11/28.
@@ -43,8 +46,8 @@ class HomePagePresenter : HomePageContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: ApiModel<HomePageApiModel> ->
-                    mView.showWallpaper(t.res?.vertical)
-
+                    mView.showWallpaper(t.res?.vertical, skip / limit)
+                    Log.e("Homepage", "====${skip / limit}")
                     var items = t.res?.homepage?.get(0)?.items
                     var bannerlist = mutableListOf<Banner>()
                     var k = 0
@@ -61,8 +64,6 @@ class HomePagePresenter : HomePageContract.Presenter {
                             }
                         }
                     }
-//                    Logger.e(bannerlist.toString())
-                    mView.showBanners(bannerlist)
                 }, { e: Throwable ->
                     mView.showError(e.message!!)
                 })

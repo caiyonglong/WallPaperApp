@@ -12,7 +12,7 @@ import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 interface HomePageContract {
 
     interface View : IBaseView {
-        fun showWallpaper(wallpapers: List<Wallpaper>?)
+        fun showWallpaper(wallpapers: List<Wallpaper>?, page: Int)
         fun showBanners(banners: List<Banner>)
         fun showError(error: String)
     }

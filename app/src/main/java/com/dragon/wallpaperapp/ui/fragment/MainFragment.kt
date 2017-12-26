@@ -41,7 +41,7 @@ class MainFragment : Fragment() {
     }
 
     private fun initTabLayout() {
-        viewPager.offscreenPageLimit = 4
+        viewPager.offscreenPageLimit = 3
         viewPager.adapter = ViewPagerAdapter(fragmentManager, titles, fragments)
         tabLayout.setViewPager(viewPager, titles)
     }
