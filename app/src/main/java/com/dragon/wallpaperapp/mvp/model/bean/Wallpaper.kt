@@ -12,6 +12,8 @@ class Wallpaper() : Parcelable {
     var img: String? = null
     var wp: String? = null
 
+
+
     constructor(parcel: Parcel) : this() {
         preview = parcel.readString()
         thumb = parcel.readString()
@@ -28,6 +30,10 @@ class Wallpaper() : Parcelable {
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return "Wallpaper(preview=$preview, thumb=$thumb, img=$img, wp=$wp)"
     }
 
     companion object CREATOR : Parcelable.Creator<Wallpaper> {

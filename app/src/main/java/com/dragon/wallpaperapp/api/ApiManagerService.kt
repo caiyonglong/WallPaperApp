@@ -4,6 +4,7 @@ package com.dragon.wallpaperapp.api
 import com.dragon.wallpaperapp.mvp.model.*
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.HeaderMap
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
@@ -41,7 +42,7 @@ interface ApiManagerService {
 
     //album
     @GET("v1/wallpaper/album/{album_id}/wallpaper")
-    fun getWallpaperForAlbum(@Path("album_id") album_id: String,
+    fun getWallpaperForAlbum(@HeaderMap header: Map<String, String>, @Path("album_id") album_id: String,
                              @QueryMap map: Map<String, String>): Observable<ApiModel<AlbumApiModel>>
 
     //获取album数据

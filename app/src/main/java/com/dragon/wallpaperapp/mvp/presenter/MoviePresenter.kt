@@ -44,9 +44,8 @@ class MoviePresenter : MovieContract.Presenter {
         try {
             val document = Jsoup.connect(result)
                     .data("query", "Java")
-                    .userAgent("picasso,180,xiaomi")
-//                    .header()
-//                    .cookie("auth", "token")
+//                    .header("User-Agent", "picasso,181,xiaomi")
+//                    .header("Accept-Encoding", "gzip")
                     .timeout(3000)
                     .get()
             val classes = document.getElementsByClass("co_area2")

@@ -74,7 +74,22 @@ class HomePageFragment : Fragment(), HomePageContract.View {
         recyclerView.adapter = mAdapter
 
         mAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
-            mPresenter.getWallpaper(limit, skip, arguments.getString("order"))
+            recyclerView.postDelayed({
+                if (mCurrentCounter >= TOTAL_COUNTER) {
+                    //数据全部加载完毕
+                    mAdapter.loadMoreEnd();
+                } else {
+                    if (isErr) {
+                        //成功获取更多数据
+                        mPresenter.getWallpaper(limit, skip, arguments.getString("order"))
+                    } else {
+                        //获取更多数据失败
+                        isErr = true
+                        mAdapter.loadMoreFail()
+                    }
+                }
+
+            }, 100)
         }, recyclerView)
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data

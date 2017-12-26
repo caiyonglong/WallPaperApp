@@ -77,7 +77,6 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
 
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {
         mAdapter.setNewData(wallpapers)
-        mAdapter.notifyDataSetChanged()
     }
 
     override fun showError(error: String) {

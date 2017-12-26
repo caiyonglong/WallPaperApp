@@ -48,14 +48,16 @@ class WallpaperPresenter : WallpaperContract.Presenter {
     }
 
     override fun getWallpaperForAlbum(album_id: String, limit: Int, skip: Int, order: String) {
-        var map: Map<String, Any> = mapOf("limit" to limit,
+        val map: Map<String, Any> = mapOf("limit" to limit,
                 "skip" to skip,
                 "order" to order,
                 "adult" to "false",
                 "first" to "0")
+        val header: Map<String, String> = mapOf(
+                "User-Agent" to "picasso,181,xiaomi")
         ApiManager.instance
                 .apiService
-                .getWallpaperForAlbum(album_id, map as Map<String, String>)
+                .getWallpaperForAlbum(header, album_id, map as Map<String, String>)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: ApiModel<AlbumApiModel> ->
