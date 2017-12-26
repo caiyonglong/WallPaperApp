@@ -2,6 +2,7 @@ package com.dragon.wallpaperapp.mvp.presenter
 
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.CategoryContract
+import com.dragon.wallpaperapp.mvp.model.ApiModel
 import com.dragon.wallpaperapp.mvp.model.CategoryApiModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -36,7 +37,7 @@ class CategoryPresenter : CategoryContract.Presenter {
                 .getCategoryList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t: CategoryApiModel ->
+                .subscribe({ t: ApiModel<CategoryApiModel> ->
                     mView.showCategory(t.res?.category)
                 }, { e: Throwable ->
                     mView.showError(e.message!!)

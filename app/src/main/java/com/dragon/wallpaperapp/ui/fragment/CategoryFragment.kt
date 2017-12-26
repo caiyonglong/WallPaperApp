@@ -79,6 +79,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
             intent.putExtra("name", mCate.name)
             intent.putExtra("cover", mCate.cover)
             intent.putExtra("id", mCate.id)
+            intent.putExtra("type", "category")
             startActivity(intent)
         }
     }
@@ -91,6 +92,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
     override fun showError(error: String) {
         Log.e("TAG", error)
     }
+
     override fun showLoading() {
 
     }

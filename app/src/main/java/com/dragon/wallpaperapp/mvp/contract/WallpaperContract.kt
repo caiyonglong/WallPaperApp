@@ -20,5 +20,6 @@ interface WallpaperContract {
     interface Presenter : IBasePresenter<View> {
         fun getWallpaperForCate(cate_id: String, limit: Int, skip: Int, order: String)
         fun getWallpaper(limit: Int, skip: Int, order: String)
+        fun getWallpaperForAlbum(album_id: String, limit: Int, skip: Int, order: String)
     }
 }

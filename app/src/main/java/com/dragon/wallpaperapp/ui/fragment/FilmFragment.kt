@@ -13,7 +13,7 @@ import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.contract.MovieContract
 import com.dragon.wallpaperapp.mvp.model.bean.FilmSection
 import com.dragon.wallpaperapp.mvp.presenter.MoviePresenter
-import com.dragon.wallpaperapp.ui.activity.WebViewActivity
+import com.dragon.wallpaperapp.ui.activity.MovieDetailActivity
 import com.dragon.wallpaperapp.ui.adapter.SectionAdapter
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 
@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
  */
 
 class FilmFragment : Fragment(), MovieContract.View {
+
     var mPresenter = MoviePresenter()
     var mAdapter = SectionAdapter(R.layout.item_movie, R.layout.item_header, null)
 
@@ -43,12 +44,12 @@ class FilmFragment : Fragment(), MovieContract.View {
         mPresenter.getData()
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
             // 在这里可以做任何自己想要的处理
-            val intent = Intent(context, WebViewActivity::class.java)
+            val intent = Intent(context, MovieDetailActivity::class.java)
             var data = adapter.getItem(position) as FilmSection
             if (data.isHeader) {
-                intent.putExtra(WebViewActivity.WEB_URL, data.url)
+                intent.putExtra(MovieDetailActivity.WEB_URL, data.url)
             } else {
-                intent.putExtra(WebViewActivity.WEB_URL, data.flimData?.url)
+                intent.putExtra(MovieDetailActivity.WEB_URL, data.flimData?.url)
             }
             context.startActivity(intent)
         }
@@ -67,4 +68,8 @@ class FilmFragment : Fragment(), MovieContract.View {
     override fun showLoading() {
 
     }
+    override fun showMovies(datas: String) {
+
+    }
+
 }

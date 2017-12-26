@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_webview.*
  */
 class WebViewActivity : AppCompatActivity() {
     companion object {
-        var WEB_URL: String = ""
+        var WEB_URL: String = "url"
         var TAG: String = "WebViewActivity"
     }
 
@@ -32,6 +32,7 @@ class WebViewActivity : AppCompatActivity() {
     private fun init() {
         Logger.e("url=" + url)
         webView.loadUrl(url)
+//        webView.loadDataWithBaseURL(null,url)
         //启用支持javascript
         webView.settings.javaScriptEnabled = true
         //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开

@@ -12,7 +12,7 @@ class Category {
     var id: String? = null
     var picasso_cover: String? = null
     override fun toString(): String {
-        return "Category(count=$count, cover_temp=$cover_temp, name=$name, cover=$cover, icover=$icover, id=$id, picasso_cover=$picasso_cover)"
+        return "Album(count=$count, cover_temp=$cover_temp, name=$name, cover=$cover, icover=$icover, id=$id, picasso_cover=$picasso_cover)"
     }
 
 

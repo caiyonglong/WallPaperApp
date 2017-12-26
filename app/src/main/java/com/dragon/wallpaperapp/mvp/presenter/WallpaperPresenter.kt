@@ -1,9 +1,9 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
 import com.dragon.wallpaperapp.api.ApiManager
-import com.dragon.wallpaperapp.mvp.contract.HomePageContract
 import com.dragon.wallpaperapp.mvp.contract.WallpaperContract
-import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
+import com.dragon.wallpaperapp.mvp.model.AlbumApiModel
+import com.dragon.wallpaperapp.mvp.model.ApiModel
 import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -40,8 +40,26 @@ class WallpaperPresenter : WallpaperContract.Presenter {
                 .getWallpaperForCate(cate_id, map as Map<String, String>)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t: WallpaperApiModel ->
+                .subscribe({ t: ApiModel<WallpaperApiModel> ->
                     mView.showWallpaper(t.res?.vertical)
+                }, { e: Throwable ->
+                    mView.showError(e.message!!)
+                })
+    }
+
+    override fun getWallpaperForAlbum(album_id: String, limit: Int, skip: Int, order: String) {
+        var map: Map<String, Any> = mapOf("limit" to limit,
+                "skip" to skip,
+                "order" to order,
+                "adult" to "false",
+                "first" to "0")
+        ApiManager.instance
+                .apiService
+                .getWallpaperForAlbum(album_id, map as Map<String, String>)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ t: ApiModel<AlbumApiModel> ->
+                    mView.showWallpaper(t.res?.wallpaper)
                 }, { e: Throwable ->
                     mView.showError(e.message!!)
                 })
@@ -58,7 +76,7 @@ class WallpaperPresenter : WallpaperContract.Presenter {
                 .getWallpaper(map as Map<String, String>)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t: WallpaperApiModel ->
+                .subscribe({ t: ApiModel<WallpaperApiModel> ->
                     mView.showWallpaper(t.res?.vertical)
                 }, { e: Throwable ->
                     mView.showError(e.message!!)

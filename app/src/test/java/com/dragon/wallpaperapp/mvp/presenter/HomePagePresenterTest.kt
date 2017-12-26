@@ -1,8 +1,5 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
-import com.dragon.wallpaperapp.api.ApiManager
-import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
-import io.reactivex.schedulers.Schedulers
 import org.junit.Test
 
 /**
@@ -14,28 +11,27 @@ class HomePagePresenterTest {
     @Test
     fun getWallpaper() {
 
-//        val manager = mock(HomePagePresenter::class.java)
-        var map: Map<String, Any> = mapOf("limit" to 1,
+        var map: Map<String, Any> = mapOf(
+                "limit" to 30,
                 "skip" to 0,
                 "order" to "hot",
                 "adult" to "false",
-                "first" to "0")
-//        var manager = mock(HomePagePresenter::class.java)
-////
-//       var x: HomePagePresenter = HomePagePresenter()
-//        x.getWallpaper(30,0,"hot")
+                "first" to "0"
+        )
 
-        System.out.println(map.toString())
-        ApiManager.instance
-                .apiService
-                .getHomePageInfo(map as Map<String, String>)
-                .subscribeOn(Schedulers.io())
-//                .observeOn(Scheduler.Worker)
-                .subscribe({ t: HomePageApiModel ->
-                    System.out.println(t.res.toString())
-                }, { e: Throwable ->
-                    System.out.println(e.message+"---")
-                })
+        println(map.toString())
+        println("----")
+//        ApiManager.instance
+//                .apiService
+//                .getAlbumList(map as Map<String, String>)
+//                .subscribeOn(Schedulers.io())
+//                .subscribe({ t: ApiModel<AlbumApiModel> ->
+//                    System.out.println(map.toString())
+//                    println(t.msg + "----")
+//                    println(t.res.toString())
+//                }, { e: Throwable ->
+//                    println(e.message)
+//                })
     }
 
 }

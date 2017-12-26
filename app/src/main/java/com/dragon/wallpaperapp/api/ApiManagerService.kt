@@ -1,9 +1,7 @@
 package com.dragon.wallpaperapp.api
 
 
-import com.dragon.wallpaperapp.mvp.model.CategoryApiModel
-import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
-import com.dragon.wallpaperapp.mvp.model.WallpaperApiModel
+import com.dragon.wallpaperapp.mvp.model.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,25 +33,29 @@ interface ApiManagerService {
 //    http://service.aibizhi.adesk.com/v3/homepage?limit=30&skip=30&adult=false&did=867919026491418&first=0&order=hot
     //获取homepage数据?limit=30&adult=false&did=867919026491418&first=1&order=hot
     @GET("v3/homepage")
-    fun getHomePageInfo(@QueryMap map: Map<String, String>): Observable<HomePageApiModel>
+    fun getHomePageInfo(@QueryMap map: Map<String, String>): Observable<ApiModel<HomePageApiModel>>
 
     //最新
     @GET("v1/vertical/vertical")
-    fun getWallpaper(@QueryMap map: Map<String, String>): Observable<WallpaperApiModel>
+    fun getWallpaper(@QueryMap map: Map<String, String>): Observable<ApiModel<WallpaperApiModel>>
 
     //album
     @GET("v1/wallpaper/album/{album_id}/wallpaper")
     fun getWallpaperForAlbum(@Path("album_id") album_id: String,
-                             @QueryMap map: Map<String, String>): Observable<WallpaperApiModel>
+                             @QueryMap map: Map<String, String>): Observable<ApiModel<AlbumApiModel>>
+
+    //获取album数据
+    @GET("v1/wallpaper/album")
+    fun getAlbumList(@QueryMap map: Map<String, String>): Observable<ApiModel<AlbumApiModel>>
+
 
     //获取homepage数据
     @GET("v1/wallpaper/category?adult=false&first=1")
-    fun getCategoryList(): Observable<CategoryApiModel>
+    fun getCategoryList(): Observable<ApiModel<CategoryApiModel>>
 
-    //获取homepage数据
-//    @GET("v1/vertical/category/{cate_id}/vertical?limit=10&adult=false&first=1&order=new")
+    //获取类别数据
     @GET("v1/vertical/category/{cate_id}/vertical")
     fun getWallpaperForCate(@Path("cate_id") cate_id: String,
-                            @QueryMap map: Map<String, String>): Observable<WallpaperApiModel>
+                            @QueryMap map: Map<String, String>): Observable<ApiModel<WallpaperApiModel>>
 
 }

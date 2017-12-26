@@ -31,6 +31,9 @@
             android:label="@string/preview_wallpaper" />
         <activity android:name=".ui.activity.CategoryActivity" />
         <activity android:name=".ui.activity.WebViewActivity" />
+        <activity
+            android:name=".ui.activity.MovieDetailActivity"
+            android:label="@string/title_activity_movie_detail"></activity>
     </application>
 
 </manifest>

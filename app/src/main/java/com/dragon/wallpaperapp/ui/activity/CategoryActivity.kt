@@ -1,7 +1,6 @@
 package com.dragon.wallpaperapp.ui.activity
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
@@ -24,6 +23,7 @@ class CategoryActivity : AppCompatActivity() {
         val id: String = intent.getStringExtra("id")
         val name = intent.getStringExtra("name")
         val cover = intent.getStringExtra("cover")
+        val type = intent.getStringExtra("type")
         toolbar.title = name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -56,9 +56,9 @@ class CategoryActivity : AppCompatActivity() {
 
             override fun getItem(position: Int): Fragment {
                 if (position == 0) {
-                    return WallpaperFragment.newInstance(id, "new", "category")
+                    return WallpaperFragment.newInstance(id, "new", type)
                 } else {
-                    return WallpaperFragment.newInstance(id, "hot", "category")
+                    return WallpaperFragment.newInstance(id, "hot", type)
                 }
             }
 

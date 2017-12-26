@@ -52,11 +52,13 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
         init()
         mPresenter.attachView(this)
 
-        if (arguments["type"] === "new") {
+        if (arguments["type"] == "new") {
             mPresenter.getWallpaper(30, 0, arguments.getString("order"))
-        } else {
+        } else if (arguments["type"] == "category") {
             Log.e("TAG", arguments.getString("cate_id").toString() + "---")
             mPresenter.getWallpaperForCate(arguments.getString("cate_id"), 30, 0, arguments.getString("order"))
+        } else if (arguments["type"] == "album") {
+            mPresenter.getWallpaperForAlbum(arguments.getString("cate_id"), 30, 0, arguments.getString("order"))
         }
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
@@ -81,6 +83,7 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     override fun showError(error: String) {
         Log.e("TAG", error)
     }
+
     override fun showLoading() {
     }
 

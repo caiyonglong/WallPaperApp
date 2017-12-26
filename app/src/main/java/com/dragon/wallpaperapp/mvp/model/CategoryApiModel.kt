@@ -7,9 +7,4 @@ import com.dragon.wallpaperapp.mvp.model.bean.Category
  * 点击分类获取的json数据类型
  */
 
-class CategoryApiModel(var msg: String? = null, var res: ResBean? = null) {
-
-    class ResBean {
-        var category: List<Category>? = null
-    }
-}
+class CategoryApiModel(var category: List<Category>? = null)

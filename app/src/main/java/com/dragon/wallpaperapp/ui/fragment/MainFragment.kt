@@ -19,7 +19,7 @@ class MainFragment : Fragment() {
 
     var fragments: ArrayList<Fragment> = arrayListOf()
 
-    var titles = arrayOf("推荐", "最新", "分类", "影视")
+    var titles = arrayOf("推荐", "最新", "分类", "专辑", "影视")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
@@ -36,6 +36,7 @@ class MainFragment : Fragment() {
         fragments.add(HomePageFragment.newInstance("new"))
         fragments.add(WallpaperFragment.newInstance("", "new", "new"))
         fragments.add(CategoryFragment())
+        fragments.add(AlbumFragment.newInstance("hot"))
         fragments.add(FilmFragment())
     }
 
