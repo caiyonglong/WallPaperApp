@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.dragon.wallpaperapp">
 
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
@@ -11,9 +12,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:resizeableActivity="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/WallpaperApp">
+        android:theme="@style/WallpaperApp"
+        tools:targetApi="n">
         <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -28,12 +31,12 @@
         <activity
             android:name=".ui.activity.WallpaperDisplayActivity"
             android:configChanges="smallestScreenSize|orientation|screenSize|keyboardHidden|screenLayout"
-            android:label="@string/preview_wallpaper" />
+            android:label="@string/preview_wallpaper"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.CategoryActivity" />
-        <activity android:name=".ui.activity.WebViewActivity" />
         <activity
             android:name=".ui.activity.MovieDetailActivity"
-            android:label="@string/title_activity_movie_detail"></activity>
+            android:label="@string/title_activity_movie_detail" />
     </application>
 
 </manifest>

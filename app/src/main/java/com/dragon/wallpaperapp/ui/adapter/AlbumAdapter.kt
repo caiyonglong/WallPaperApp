@@ -26,6 +26,7 @@ class AlbumAdapter(data: List<Album>?) : BaseQuickAdapter<Album, BaseViewHolder>
         GlideApp.with(mContext)
                 .load(item.cover)
                 .centerCrop()
+                .override(200, 300)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .transition(withCrossFade())
                 .into(helper.getView<View>(R.id.iv) as ImageView)

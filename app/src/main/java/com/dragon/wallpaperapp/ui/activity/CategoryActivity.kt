@@ -39,7 +39,7 @@ class CategoryActivity : AppCompatActivity() {
                 .into(image)
 
 
-        toolbar.setNavigationOnClickListener { view ->
+        toolbar.setNavigationOnClickListener { _ ->
             onBackPressed()
         }
 

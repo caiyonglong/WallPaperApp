@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,7 +41,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        recyclerView.layoutManager = GridLayoutManager(activity, 2) as RecyclerView.LayoutManager?
+        recyclerView.layoutManager = GridLayoutManager(activity, 2)
         mAdapter = CategoryAdapter(null)
         recyclerView.adapter = mAdapter
 
@@ -52,8 +51,8 @@ class CategoryFragment : Fragment(), CategoryContract.View {
         mAdapter.disableLoadMoreIfNotFullPage(recyclerView)
         mAdapter.setEnableLoadMore(true)
         mAdapter.isUpFetchEnable = false
-        mAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
-            recyclerView.postDelayed(Runnable {
+        mAdapter.setOnLoadMoreListener({
+            recyclerView.postDelayed({
                 if (mCurrentCounter >= TOTAL_COUNTER) {
                     //Data are all loaded.
                     mAdapter.loadMoreEnd()
@@ -73,7 +72,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
             }, 100)
         }, recyclerView)
 
-        mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { mAdapter, view, position ->
+        mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { mAdapter, _, position ->
             val mCate: Category = mAdapter.data[position] as Category
             Logger.e("TAG", mCate.name)
             var intent = Intent(activity, CategoryActivity::class.java)

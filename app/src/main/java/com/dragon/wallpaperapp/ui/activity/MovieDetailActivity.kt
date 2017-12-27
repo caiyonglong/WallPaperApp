@@ -29,7 +29,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
     companion object {
         var WEB_URL: String = "url"
         var NAME: String = "name"
-        var TAG: String = "WebViewActivity"
+        var TAG: String = "PreImageViewActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
         toolbar.title = name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener { view ->
+        toolbar.setNavigationOnClickListener { _ ->
             onBackPressed()
         }
         val mPresenter = MoviePresenter()
@@ -72,7 +72,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
     override fun hideLoading() {
     }
 
-    override fun showMovies(datas: List<FilmSection>?) {
+    override fun showMovies(data: List<FilmSection>?) {
     }
 
     override fun showMovies(data: Movie) {

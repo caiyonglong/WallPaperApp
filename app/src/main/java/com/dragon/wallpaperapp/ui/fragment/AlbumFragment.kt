@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -38,13 +37,11 @@ class AlbumFragment : Fragment(), AlbumContract.View {
 
     var mPresenter: AlbumPresenter = AlbumPresenter()
     lateinit var mAdapter: AlbumAdapter
-    var mCurrentCounter = 30
     var TOTAL_COUNTER = 0
-    var isErr = true
 
     companion object {
         fun newInstance(order: String): AlbumFragment {
-            val args: Bundle = Bundle()
+            val args = Bundle()
             args.putString("order", order)
             val fragment = AlbumFragment()
             fragment.arguments = args
@@ -65,29 +62,9 @@ class AlbumFragment : Fragment(), AlbumContract.View {
 
     private fun init() {
         recyclerView.isNestedScrollingEnabled = false
-        recyclerView.layoutManager = LinearLayoutManager(activity) as RecyclerView.LayoutManager?
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         mAdapter = AlbumAdapter(null)
         recyclerView.adapter = mAdapter
-
-//        mAdapter.setOnLoadMoreListener(BaseQuickAdapter.RequestLoadMoreListener {
-//            recyclerView.postDelayed(Runnable {
-//                if (mCurrentCounter >= TOTAL_COUNTER) {
-//                    //Data are all loaded.
-//                    mAdapter.loadMoreEnd()
-//                } else {
-//                    if (isErr) {
-//                        //Successfully get more data
-//                        mPresenter.getWallpaper(30, mCurrentCounter, "hot")
-//                        mCurrentCounter = mAdapter.data.size
-//                        mAdapter.loadMoreComplete()
-//                    } else {
-//                        //Get more data failed
-//                        isErr = true
-//                        mAdapter.loadMoreFail()
-//                    }
-//                }
-//            }, 100)
-//        }, recyclerView)
 
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mAlbums: List<Album> = mAdapter.data
@@ -108,7 +85,7 @@ class AlbumFragment : Fragment(), AlbumContract.View {
     }
 
     override fun showBanners(banners: List<Banner>) {
-        Logger.e(  banners.toString())
+        Logger.e(banners.toString())
 
         var bannerView: View = layoutInflater.inflate(R.layout.banner_view, recyclerView.parent as ViewGroup, false)
         bannerView.banner.setBannerPageClickListener(object : MZBannerView.BannerPageClickListener {
@@ -152,7 +129,7 @@ class AlbumFragment : Fragment(), AlbumContract.View {
 
         override fun createView(p0: Context?): View? {
             mView = LayoutInflater.from(p0).inflate(R.layout.item_banner, null)
-            return mView as View?
+            return mView
         }
     }
 

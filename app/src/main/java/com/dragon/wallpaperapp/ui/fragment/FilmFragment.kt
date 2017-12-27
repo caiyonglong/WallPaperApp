@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,10 +40,10 @@ class FilmFragment : Fragment(), MovieContract.View {
 
     private fun init() {
         recyclerView.isNestedScrollingEnabled = false
-        recyclerView.layoutManager = LinearLayoutManager(activity) as RecyclerView.LayoutManager?
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = mAdapter
         mPresenter.getData()
-        mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, view, position ->
+        mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, _, position ->
             // 在这里可以做任何自己想要的处理
             val intent = Intent(context, MovieDetailActivity::class.java)
             var data = adapter.getItem(position) as FilmSection
@@ -62,10 +61,9 @@ class FilmFragment : Fragment(), MovieContract.View {
 
     }
 
-    override fun showMovies(lists: List<FilmSection>?) {
-        println("result =  " + lists?.size + lists.toString())
-        mAdapter.setNewData(lists)
-        mAdapter.notifyDataSetChanged()
+    override fun showMovies(data: List<FilmSection>?) {
+        println("result =  " + data?.size + data.toString())
+        mAdapter.setNewData(data)
     }
 
     override fun showLoading() {

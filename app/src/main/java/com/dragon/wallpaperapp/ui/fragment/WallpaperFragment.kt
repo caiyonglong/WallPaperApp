@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -70,7 +69,7 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     }
 
     private fun init() {
-        recyclerView.layoutManager = GridLayoutManager(activity, 3) as RecyclerView.LayoutManager?
+        recyclerView.layoutManager = GridLayoutManager(activity, 3)
         mAdapter = HomeAdapter(null)
         recyclerView.adapter = mAdapter
     }

@@ -12,7 +12,7 @@ import com.dragon.wallpaperapp.mvp.model.bean.Movie
 interface MovieContract {
 
     interface View : IBaseView {
-        fun showMovies(datas: List<FilmSection>?)
+        fun showMovies(data: List<FilmSection>?)
         fun showMovies(data: Movie)
     }
 

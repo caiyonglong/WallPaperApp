@@ -44,9 +44,7 @@ class MoviePresenter : MovieContract.Presenter {
         try {
             val document = Jsoup.connect(result)
                     .data("query", "Java")
-//                    .header("User-Agent", "picasso,181,xiaomi")
-//                    .header("Accept-Encoding", "gzip")
-                    .timeout(3000)
+                    .timeout(5000)
                     .get()
             val classes = document.getElementsByClass("co_area2")
             println(classes.size)
@@ -85,8 +83,6 @@ class MoviePresenter : MovieContract.Presenter {
         println(url)
         val movie = Movie("", "", url)
         try {
-
-
             val document = Jsoup.connect(url)
                     .userAgent("Mozilla")
                     .cookie("auth", "token")
@@ -136,6 +132,11 @@ class MoviePresenter : MovieContract.Presenter {
     @SuppressLint("StaticFieldLeak")
     inner class MovieLoader : AsyncTask<String, Int, List<FilmSection>>() {
 
+        override fun onPreExecute() {
+            super.onPreExecute()
+            mView.showLoading()
+        }
+
         override fun doInBackground(vararg params: String?): List<FilmSection> {
             return getDataFromUrl()
         }
@@ -143,6 +144,7 @@ class MoviePresenter : MovieContract.Presenter {
         override fun onPostExecute(result: List<FilmSection>?) {
             super.onPostExecute(result)
             mView.showMovies(result)
+            mView.hideLoading()
         }
     }
 

@@ -20,8 +20,6 @@ class SectionAdapter(layoutResId: Int, sectionHeadResId: Int, data: MutableList<
 
     override fun convertHead(helper: BaseViewHolder, item: FilmSection) {
         helper.setText(R.id.tv_tab_title, item.header)
-        helper.getView<TextView>(R.id.tv_more).text = Html.fromHtml(mContext.resources.getText(R.string.load_more, item.url).toString())
-        helper.getView<TextView>(R.id.tv_more).movementMethod = LinkMovementMethod.getInstance()
     }
 
 }
