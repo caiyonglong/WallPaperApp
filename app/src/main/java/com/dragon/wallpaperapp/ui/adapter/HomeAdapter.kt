@@ -11,6 +11,8 @@ import com.dragon.wallpaperapp.api.GlideApp
 import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 import com.orhanobut.logger.Logger
 
+
+
 /**
  * Created by D22434 on 2017/11/30.
  */
@@ -27,4 +29,5 @@ class HomeAdapter(data: List<Wallpaper>?) : BaseQuickAdapter<Wallpaper, BaseView
                 .transition(withCrossFade())
                 .into(helper.getView<View>(R.id.iv) as ImageView)
     }
+
 }

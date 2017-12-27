@@ -1,10 +1,8 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
-import android.os.Handler
 import android.util.Log
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.HomePageContract
-import com.dragon.wallpaperapp.mvp.model.AlbumApiModel
 import com.dragon.wallpaperapp.mvp.model.ApiModel
 import com.dragon.wallpaperapp.mvp.model.Banner
 import com.dragon.wallpaperapp.mvp.model.HomePageApiModel
@@ -39,33 +37,42 @@ class HomePagePresenter : HomePageContract.Presenter {
                 "order" to order,
                 "adult" to "false",
                 "first" to "0")
-//        Log.e("TAG", map.toString() + "_-")
+        Log.e("TAG", map.toString() + "_-")
         ApiManager.instance
                 .apiService
                 .getHomePageInfo(map as Map<String, String>)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: ApiModel<HomePageApiModel> ->
-                    mView.showWallpaper(t.res?.vertical, skip / limit)
+                    mView.showWallpaper(t.res?.vertical)
                     Log.e("Homepage", "====${skip / limit}")
-                    var items = t.res?.homepage?.get(0)?.items
-                    var bannerlist = mutableListOf<Banner>()
-                    var k = 0
-                    if (items != null) {
-                        for (item in items) {
-                            if (item.value?.name != null) {
-                                val banner = Banner()
-                                banner.name = item.value?.name!!
-                                banner.id = item.id!!
-                                banner.lcover = item.value?.lcover!!
-                                banner.name = item.value?.name!!
-                                banner.desc = item.value?.desc!!
-                                bannerlist.add(banner)
+                    val tt = t.res?.homepage
+                    if (tt != null) {
+                        if (tt.isNotEmpty()) {
+                            val items = tt[0].items
+                            val banners = mutableListOf<Banner>()
+                            if (items != null) {
+                                for (item in items) {
+                                    if (item.value?.name != null) {
+                                        val banner = Banner()
+                                        banner.name = item.value?.name!!
+                                        banner.id = item.value?.id!!
+                                        banner.lcover = item.value?.lcover!!
+                                        banner.cover = item.value?.cover!!
+                                        banner.name = item.value?.name!!
+                                        banner.desc = item.value?.desc!!
+                                        banner.thumb = item.thumb!!
+                                        banners.add(banner)
+                                    }
+                                }
+                                mView.showBanners(banners)
                             }
                         }
                     }
+
                 }, { e: Throwable ->
                     mView.showError(e.message!!)
+                    e.printStackTrace()
                 })
     }
 

@@ -51,10 +51,12 @@ class AlbumPresenter : AlbumContract.Presenter {
                             if (item.value?.name != null) {
                                 val banner = Banner()
                                 banner.name = item.value?.name!!
-                                banner.id = item.id!!
+                                banner.id = item.value?.id!!
                                 banner.lcover = item.value?.lcover!!
+                                banner.cover = item.value?.cover!!
                                 banner.name = item.value?.name!!
                                 banner.desc = item.value?.desc!!
+                                banner.thumb = item.thumb!!
                                 bannerlist.add(banner)
                             }
                         }

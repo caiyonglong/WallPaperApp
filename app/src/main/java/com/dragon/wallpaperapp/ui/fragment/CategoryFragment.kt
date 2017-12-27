@@ -86,8 +86,9 @@ class CategoryFragment : Fragment(), CategoryContract.View {
     }
 
     override fun showCategory(categories: List<Category>?) {
-        mAdapter.setNewData(categories)
-        mAdapter.notifyDataSetChanged()
+        if (categories != null) {
+            mAdapter.addData(categories)
+        }
     }
 
     override fun showError(error: String) {

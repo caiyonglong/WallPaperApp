@@ -108,14 +108,9 @@ class AlbumFragment : Fragment(), AlbumContract.View {
     }
 
     override fun showBanners(banners: List<Banner>) {
-        Logger.e(banners.toString())
+        Logger.e(  banners.toString())
 
         var bannerView: View = layoutInflater.inflate(R.layout.banner_view, recyclerView.parent as ViewGroup, false)
-        bannerView.banner.setPages(banners,
-                MZHolderCreator {
-                    BannerViewHolder()
-                }
-        )
         bannerView.banner.setBannerPageClickListener(object : MZBannerView.BannerPageClickListener {
             override fun onPageClick(view: View, position: Int) {
 
@@ -123,13 +118,18 @@ class AlbumFragment : Fragment(), AlbumContract.View {
                 val intent = Intent(context, CategoryActivity::class.java)
                 intent.putExtra("position", position)
                 intent.putExtra("id", banners[position].id)
-                intent.putExtra("cover", banners[position].cover)
+                intent.putExtra("cover", banners[position].lcover)
                 intent.putExtra("name", banners[position].name)
                 intent.putExtra("type", "album")
                 context.startActivity(intent)
             }
         })
         bannerView.banner.setIndicatorVisible(false)
+        bannerView.banner.setPages(banners,
+                MZHolderCreator {
+                    BannerViewHolder()
+                }
+        )
         mAdapter.addHeaderView(bannerView)
         mAdapter.notifyDataSetChanged()
     }

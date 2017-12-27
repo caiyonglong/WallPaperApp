@@ -18,7 +18,6 @@ class HomePageApiModel(var homepage: List<HomepageBean>? = null, var vertical: L
             var target: String? = null
             var thumb: String? = null
             var type: String? = null
-            var id: String? = null
 
             class ValueBean {
 
