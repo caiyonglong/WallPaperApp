@@ -26,6 +26,7 @@ import com.dragon.wallpaperapp.mzbanner.holder.MZViewHolder
 import com.dragon.wallpaperapp.ui.activity.CategoryActivity
 import com.dragon.wallpaperapp.ui.activity.WallpaperDisplayActivity
 import com.dragon.wallpaperapp.ui.adapter.HomeAdapter
+import com.mingle.widget.LoadingView
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.banner_view.view.*
 import kotlinx.android.synthetic.main.fragment_homepage.*
@@ -42,15 +43,16 @@ class HomePageFragment : Fragment(), HomePageContract.View, BaseQuickAdapter.Req
     private var mAdapter: HomeAdapter = HomeAdapter(null)
     private var limit = 30
     private var skip = 0
+    private var order = ""
     private var mNextPage = 1
     private var mCurrentCounter = 0
     private var isErr = true
 
+
     companion object {
-        private var TOTAL_COUNTER = 100
 
         fun newInstance(order: String): HomePageFragment {
-            val args: Bundle = Bundle()
+            val args = Bundle()
             args.putString("order", order)
             val fragment = HomePageFragment()
             fragment.arguments = args
@@ -64,23 +66,27 @@ class HomePageFragment : Fragment(), HomePageContract.View, BaseQuickAdapter.Req
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
+        order = arguments.getString("order")
+        mPresenter.attachView(this)
         initView()
         initAdapter()
-        mPresenter.getWallpaper(limit, skip, arguments.getString("order"))
+        loadData()
     }
 
     private fun initView() {
-        mPresenter.attachView(this)
         recyclerView.isNestedScrollingEnabled = false
         recyclerView.layoutManager = GridLayoutManager(activity, 3)
     }
 
+    private fun loadData() {
+        Log.e("loadData", "limit=${limit}skip=$skip order=$order")
+        mPresenter.getWallpaper(limit, skip, order)
+    }
+
     private fun initAdapter() {
-        mAdapter = HomeAdapter(null)
-        mAdapter.openLoadAnimation()
-//        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT)
-        recyclerView.adapter = mAdapter
-        mCurrentCounter = mAdapter.data.size
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT)
+        mAdapter.bindToRecyclerView(recyclerView)
+        mAdapter.setEmptyView(R.layout.item_empty)
         mAdapter.setOnLoadMoreListener(this, recyclerView)
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
@@ -94,40 +100,32 @@ class HomePageFragment : Fragment(), HomePageContract.View, BaseQuickAdapter.Req
     override fun onLoadMoreRequested() {
         recyclerView.postDelayed({
             Log.e("loading ", "${mAdapter.isLoading}-----")
-            if (mAdapter.data.size < limit) {
-                mAdapter.loadMoreEnd(true)
+            if (mCurrentCounter < limit) {
+                mAdapter.loadMoreEnd(true)//true is gone,false is visible
             } else {
-                if (mCurrentCounter >= TOTAL_COUNTER) {
-                    //                    pullToRefreshAdapter.loadMoreEnd();//default visible
-                    mAdapter.loadMoreEnd(true)//true is gone,false is visible
+                if (isErr) {
+                    skip = (mNextPage - 1) * limit
+                    loadData()
+                    mAdapter.loadMoreComplete()
                 } else {
-                    if (isErr) {
-                        skip = (mNextPage - 1) * limit
-                        Log.e("showWallpaper", "----- $skip ---- $mNextPage")
-                        mPresenter.getWallpaper(limit, skip, arguments.getString("order"))
-                        mCurrentCounter = mAdapter.data.size
-                        mAdapter.loadMoreComplete()
-                    } else {
-                        isErr = true
-                        mAdapter.loadMoreFail()
+                    isErr = true
+                    mAdapter.loadMoreFail()
 
-                    }
                 }
             }
         }, 1000)
 
     }
 
-
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {
         Log.e("showWallpaper", "----- $skip ---- $mNextPage")
-        val size = wallpapers?.size ?: 0
+        mCurrentCounter = wallpapers?.size ?: 0
         if (mNextPage == 1) {
             mAdapter.setNewData(wallpapers)
             mAdapter.disableLoadMoreIfNotFullPage(recyclerView)
             mNextPage++
         } else {
-            if (size > 0) {
+            if (mCurrentCounter > 0) {
                 mAdapter.addData(wallpapers!!)
                 mNextPage++
             }
@@ -159,16 +157,17 @@ class HomePageFragment : Fragment(), HomePageContract.View, BaseQuickAdapter.Req
         recyclerView.adapter = mAdapter
     }
 
-
     override fun showError(error: String) {
+        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context.getText(R.string.load_error))
         mAdapter.loadMoreFail()
     }
 
     inner class BannerViewHolder : MZViewHolder<Banner> {
-        var mView: View? = null
+        private var mView: View? = null
         override fun onBind(p0: Context?, p1: Int, banner: Banner?) {
             GlideApp.with(context)
                     .load(banner?.lcover)
+                    .placeholder(R.drawable.ic_default_preview)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .transition(DrawableTransitionOptions.withCrossFade())
@@ -183,9 +182,10 @@ class HomePageFragment : Fragment(), HomePageContract.View, BaseQuickAdapter.Req
     }
 
     override fun showLoading() {
-
+        mAdapter.emptyView.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
+        mAdapter.emptyView.visibility = View.INVISIBLE
     }
 }

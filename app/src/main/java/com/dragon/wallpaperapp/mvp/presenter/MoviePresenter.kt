@@ -143,13 +143,23 @@ class MoviePresenter : MovieContract.Presenter {
 
         override fun onPostExecute(result: List<FilmSection>?) {
             super.onPostExecute(result)
-            mView.showMovies(result)
-            mView.hideLoading()
+            if (result != null) {
+                mView.showMovies(result)
+                mView.hideLoading()
+            } else {
+                mView.showLoading()
+                mView.showError("暂无数据")
+            }
         }
     }
 
     @SuppressLint("StaticFieldLeak")
     inner class MovieDetailLoader : AsyncTask<String, Int, Movie>() {
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+            mView.showLoading()
+        }
 
         override fun doInBackground(vararg params: String): Movie {
             return getDataFromUrl(params[0])
@@ -157,7 +167,14 @@ class MoviePresenter : MovieContract.Presenter {
 
         override fun onPostExecute(result: Movie) {
             super.onPostExecute(result)
-            mView.showMovies(result)
+            if (result.detail != null) {
+                mView.showMovies(result)
+                mView.hideLoading()
+            } else {
+                mView.showLoading()
+                mView.showError("暂无数据")
+            }
+
         }
     }
 

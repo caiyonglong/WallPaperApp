@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -18,10 +19,13 @@ import com.dragon.wallpaperapp.mvp.model.bean.FilmSection
 import com.dragon.wallpaperapp.mvp.model.bean.Movie
 import com.dragon.wallpaperapp.mvp.presenter.MoviePresenter
 import com.dragon.wallpaperapp.ui.adapter.DownloadAdapter
+import com.mingle.widget.LoadingView
 import kotlinx.android.synthetic.main.activity_movie.*
 
 
 class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
+
+
     var url: String = ""
     private var mAdapter = DownloadAdapter(null)
     private val downloads = arrayListOf<String>()
@@ -53,8 +57,9 @@ class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
 
     private fun init() {
         rv_download.layoutManager = LinearLayoutManager(this)
-        rv_download.adapter = mAdapter
         rv_download.isNestedScrollingEnabled = false
+        mAdapter.bindToRecyclerView(rv_download)
+        mAdapter.setEmptyView(R.layout.item_empty)
         mAdapter.setOnItemClickListener { _, _, position ->
             val clipboardManager: ClipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager;
             //创建ClipData对象
@@ -66,10 +71,17 @@ class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
     }
 
 
+    override fun showError(error: String) {
+        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(this.getText(R.string.load_error))
+        Log.e("TAG", error)
+    }
+
     override fun showLoading() {
+        mAdapter.emptyView.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
+        mAdapter.emptyView.visibility = View.INVISIBLE
     }
 
     override fun showMovies(data: List<FilmSection>?) {
@@ -84,6 +96,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
                     ll_screen.visibility = View.VISIBLE
                     GlideApp.with(this)
                             .load(d.value)
+                            .placeholder(R.drawable.ic_default_preview)
                             .centerCrop()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .transition(DrawableTransitionOptions.withCrossFade())

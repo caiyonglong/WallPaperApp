@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,50 +16,43 @@ import com.dragon.wallpaperapp.mvp.model.bean.Movie
 import com.dragon.wallpaperapp.mvp.presenter.MoviePresenter
 import com.dragon.wallpaperapp.ui.activity.MovieDetailActivity
 import com.dragon.wallpaperapp.ui.adapter.SectionAdapter
-import kotlinx.android.synthetic.main.fragment_recyclerview.*
+import kotlinx.android.synthetic.main.fragment_movie.*
 
 
 /**
  * Created by D22434 on 2017/11/29.
  */
 
-class FilmFragment : Fragment(), MovieContract.View {
-
+class MovieFragment : Fragment(), MovieContract.View {
 
     var mPresenter = MoviePresenter()
     var mAdapter = SectionAdapter(R.layout.item_movie, R.layout.item_header, null)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_recyclerview, container, false)
+        return inflater.inflate(R.layout.fragment_movie, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
-        mPresenter.attachView(this)
         init()
+        mPresenter.attachView(this)
+        mPresenter.getData()
     }
 
     private fun init() {
         recyclerView.isNestedScrollingEnabled = false
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = mAdapter
-        mPresenter.getData()
+        mAdapter.bindToRecyclerView(recyclerView)
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { adapter, _, position ->
             // 在这里可以做任何自己想要的处理
-            val intent = Intent(context, MovieDetailActivity::class.java)
             var data = adapter.getItem(position) as FilmSection
-            if (data.isHeader) {
-//                intent.putExtra(MovieDetailActivity.WEB_URL, data.url)
-            } else {
+            if (!data.isHeader) {
+                val intent = Intent(context, MovieDetailActivity::class.java)
                 intent.putExtra(MovieDetailActivity.WEB_URL, data.flimData?.url)
                 intent.putExtra(MovieDetailActivity.NAME, data.flimData?.title)
+                context.startActivity(intent)
             }
-            context.startActivity(intent)
         }
-    }
-
-    override fun hideLoading() {
-
     }
 
     override fun showMovies(data: List<FilmSection>?) {
@@ -66,8 +60,17 @@ class FilmFragment : Fragment(), MovieContract.View {
         mAdapter.setNewData(data)
     }
 
-    override fun showLoading() {
+    override fun showError(error: String) {
+        loading_view.setLoadingText(error)
+        Log.e("TAG", error)
+    }
 
+    override fun showLoading() {
+        loading_view.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        loading_view.visibility = View.INVISIBLE
     }
 
     override fun showMovies(data: Movie) {

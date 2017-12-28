@@ -25,6 +25,7 @@ class AlbumAdapter(data: List<Album>?) : BaseQuickAdapter<Album, BaseViewHolder>
         // 加载网络图片
         GlideApp.with(mContext)
                 .load(item.cover)
+                .placeholder(R.drawable.ic_default_preview)
                 .centerCrop()
                 .override(200, 300)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

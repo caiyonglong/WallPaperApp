@@ -14,6 +14,7 @@ interface MovieContract {
     interface View : IBaseView {
         fun showMovies(data: List<FilmSection>?)
         fun showMovies(data: Movie)
+        fun showError(error: String)
     }
 
     interface Presenter : IBasePresenter<View> {

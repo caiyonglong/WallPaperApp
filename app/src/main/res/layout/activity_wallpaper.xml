@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ProgressBar
+    <com.mingle.widget.LoadingView
         android:id="@+id/loading"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"

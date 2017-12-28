@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.dragon.wallpaperapp.mvp.model.bean.Category
 import com.dragon.wallpaperapp.mvp.presenter.CategoryPresenter
 import com.dragon.wallpaperapp.ui.activity.CategoryActivity
 import com.dragon.wallpaperapp.ui.adapter.CategoryAdapter
+import com.mingle.widget.LoadingView
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 
@@ -25,14 +25,8 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
 
 class CategoryFragment : Fragment(), CategoryContract.View {
 
-    var mPresenter: CategoryPresenter = CategoryPresenter()
-
-    var mCurrentCounter = 0
-    var TOTAL_COUNTER = 0
-    var isErr = false
-
+    private var mPresenter: CategoryPresenter = CategoryPresenter()
     private lateinit var mAdapter: CategoryAdapter
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_recyclerview, container, false)
@@ -40,38 +34,19 @@ class CategoryFragment : Fragment(), CategoryContract.View {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
-
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
-        mAdapter = CategoryAdapter(null)
-        recyclerView.adapter = mAdapter
-
+        initAdapter()
         mPresenter.attachView(this)
         mPresenter.getCategory()
+    }
 
+    private fun initAdapter() {
+        mAdapter = CategoryAdapter(null)
+        mAdapter.bindToRecyclerView(recyclerView)
+        mAdapter.setEmptyView(R.layout.item_empty)
         mAdapter.disableLoadMoreIfNotFullPage(recyclerView)
         mAdapter.setEnableLoadMore(true)
         mAdapter.isUpFetchEnable = false
-        mAdapter.setOnLoadMoreListener({
-            recyclerView.postDelayed({
-                if (mCurrentCounter >= TOTAL_COUNTER) {
-                    //Data are all loaded.
-                    mAdapter.loadMoreEnd()
-                } else {
-                    if (isErr) {
-                        //Successfully get more data
-                        mPresenter.getCategory()
-                        mCurrentCounter = mAdapter.data.size
-                        mAdapter.loadMoreComplete()
-                    } else {
-                        //Get more data failed
-                        isErr = true
-                        mAdapter.loadMoreFail()
-
-                    }
-                }
-            }, 100)
-        }, recyclerView)
-
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { mAdapter, _, position ->
             val mCate: Category = mAdapter.data[position] as Category
             Logger.e("TAG", mCate.name)
@@ -91,14 +66,16 @@ class CategoryFragment : Fragment(), CategoryContract.View {
     }
 
     override fun showError(error: String) {
-        Log.e("TAG", error)
+        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context.getText(R.string.load_error))
     }
 
-    override fun showLoading() {
 
+    override fun showLoading() {
+        mAdapter.emptyView.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
+        mAdapter.emptyView.visibility = View.INVISIBLE
     }
 
 }

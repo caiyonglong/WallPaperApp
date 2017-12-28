@@ -1,5 +1,6 @@
 package com.dragon.wallpaperapp.mvp.presenter
 
+import android.util.Log
 import com.dragon.wallpaperapp.api.ApiManager
 import com.dragon.wallpaperapp.mvp.contract.AlbumContract
 import com.dragon.wallpaperapp.mvp.model.AlbumApiModel
@@ -43,26 +44,25 @@ class AlbumPresenter : AlbumContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: ApiModel<AlbumApiModel> ->
                     mView.showAlbum(t.res?.album)
-
-                    var bannerlist = mutableListOf<Banner>()
-                    var k = 0
-                    if (t.res?.banner != null) {
-                        for (item in t.res?.banner!!) {
-                            if (item.value?.name != null) {
-                                val banner = Banner()
-                                banner.name = item.value?.name!!
-                                banner.id = item.value?.id!!
-                                banner.lcover = item.value?.lcover!!
-                                banner.cover = item.value?.cover!!
-                                banner.name = item.value?.name!!
-                                banner.desc = item.value?.desc!!
-                                banner.thumb = item.thumb!!
-                                bannerlist.add(banner)
+                    if (skip == 0) {
+                        val banners = mutableListOf<Banner>()
+                        Log.e("showBanners", t.res.toString())
+                        val banner = t.res?.banner
+                        if (banner != null) {
+                            for (item in banner) {
+                                val detail = Banner()
+                                detail.name = item.value?.name.toString()
+                                detail.id = item.value?.id.toString()
+                                detail.lcover = item.value?.lcover.toString()
+                                detail.cover = item.value?.cover.toString()
+                                detail.name = item.value?.name.toString()
+                                detail.desc = item.value?.desc.toString()
+                                detail.thumb = item.thumb.toString()
+                                banners.add(detail)
                             }
+                            mView.showBanners(banners)
                         }
                     }
-//                    Logger.e(bannerlist.toString())
-                    mView.showBanners(bannerlist)
                 }, { e: Throwable ->
                     mView.showError(e.message!!)
                 })

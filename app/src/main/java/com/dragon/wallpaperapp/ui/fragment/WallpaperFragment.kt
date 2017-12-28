@@ -16,6 +16,8 @@ import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 import com.dragon.wallpaperapp.mvp.presenter.WallpaperPresenter
 import com.dragon.wallpaperapp.ui.activity.WallpaperDisplayActivity
 import com.dragon.wallpaperapp.ui.adapter.HomeAdapter
+import com.mingle.widget.LoadingView
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.fragment_recyclerview.*
 import java.util.*
 
@@ -23,16 +25,24 @@ import java.util.*
  * Created by D22434 on 2017/11/29.
  */
 
-class WallpaperFragment : Fragment(), WallpaperContract.View {
+class WallpaperFragment : Fragment(), WallpaperContract.View, BaseQuickAdapter.RequestLoadMoreListener {
 
-    var mPresenter: WallpaperPresenter = WallpaperPresenter()
+    private var mPresenter: WallpaperPresenter = WallpaperPresenter()
+    private lateinit var mAdapter: HomeAdapter
+    private var limit = 30
+    private var skip = 0
+    private var mNextPage = 1
+    private var mCurrentCounter = 0
+    private var isErr = true
 
-    lateinit var mAdapter: HomeAdapter
+    private var type: String = ""
+    private var id: String = ""
+    private var order = ""
 
     companion object {
         fun newInstance(id: String, order: String, type: String): WallpaperFragment {
-            val args: Bundle = Bundle()
-            args.putString("cate_id", id)
+            val args = Bundle()
+            args.putString("id", id)
             args.putString("order", order)
             args.putString("type", type)
             val fragment = WallpaperFragment()
@@ -48,17 +58,17 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
-        init()
-        mPresenter.attachView(this)
+        initData()
+        initAdapter()
+        loadData()
+    }
 
-        if (arguments["type"] == "new") {
-            mPresenter.getWallpaper(30, 0, arguments.getString("order"))
-        } else if (arguments["type"] == "category") {
-            Log.e("TAG", arguments.getString("cate_id").toString() + "---")
-            mPresenter.getWallpaperForCate(arguments.getString("cate_id"), 30, 0, arguments.getString("order"))
-        } else if (arguments["type"] == "album") {
-            mPresenter.getWallpaperForAlbum(arguments.getString("cate_id"), 30, 0, arguments.getString("order"))
-        }
+    private fun initAdapter() {
+        recyclerView.layoutManager = GridLayoutManager(activity, 3)
+        mAdapter = HomeAdapter(null)
+        mAdapter.bindToRecyclerView(recyclerView)
+        mAdapter.setEmptyView(R.layout.item_empty)
+        mAdapter.setOnLoadMoreListener(this, recyclerView)
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             val mWallpapers: List<Wallpaper> = mAdapter.data
             val intent = Intent(activity, WallpaperDisplayActivity::class.java)
@@ -68,23 +78,65 @@ class WallpaperFragment : Fragment(), WallpaperContract.View {
         }
     }
 
-    private fun init() {
-        recyclerView.layoutManager = GridLayoutManager(activity, 3)
-        mAdapter = HomeAdapter(null)
-        recyclerView.adapter = mAdapter
+    private fun initData() {
+        type = arguments["type"].toString()
+        id = arguments["id"].toString()
+        order = arguments["order"].toString()
+        mPresenter.attachView(this)
+    }
+
+    private fun loadData() {
+        Log.e("loadData", "limit=${limit}skip=$skip order=$order")
+        when (type) {
+            "new" -> mPresenter.getWallpaper(limit, skip, order)
+            "category" -> mPresenter.getWallpaperForCate(id, limit, skip, order)
+            "album" -> mPresenter.getWallpaperForAlbum(id, limit, skip, order)
+        }
+    }
+
+    override fun onLoadMoreRequested() {
+        recyclerView.postDelayed({
+            Log.e("loading ", "${mAdapter.isLoading}-----")
+            if (mCurrentCounter < limit) {
+                mAdapter.loadMoreEnd(true)
+            } else {
+                if (isErr) {
+                    skip = (mNextPage - 1) * limit
+                    loadData()
+                    mAdapter.loadMoreComplete()
+                } else {
+                    isErr = true
+                    mAdapter.loadMoreFail()
+                }
+            }
+        }, 1000)
     }
 
     override fun showWallpaper(wallpapers: List<Wallpaper>?) {
-        mAdapter.setNewData(wallpapers)
+        Log.e("showWallpaper", "----- $skip ---- $mNextPage")
+        mCurrentCounter = wallpapers?.size ?: 0
+        if (mNextPage == 1) {
+            mAdapter.setNewData(wallpapers)
+            mAdapter.disableLoadMoreIfNotFullPage(recyclerView)
+            mNextPage++
+        } else {
+            if (mCurrentCounter > 0) {
+                mAdapter.addData(wallpapers!!)
+                mNextPage++
+            }
+        }
     }
 
     override fun showError(error: String) {
-        Log.e("TAG", error)
+        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context.getText(R.string.load_error))
+        Logger.d(error)
     }
 
     override fun showLoading() {
+        mAdapter.emptyView.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
+        mAdapter.emptyView.visibility = View.INVISIBLE
     }
 }

@@ -7,9 +7,8 @@ import android.view.KeyEvent
 import android.widget.Toast
 import com.dragon.wallpaperapp.R
 import com.dragon.wallpaperapp.mvp.model.bean.TabEntity
-import com.dragon.wallpaperapp.ui.fragment.CategoryFragment
-import com.dragon.wallpaperapp.ui.fragment.FilmFragment
 import com.dragon.wallpaperapp.ui.fragment.MainFragment
+import com.dragon.wallpaperapp.ui.fragment.MovieFragment
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private var defaultIndex: Int = 0
-    private var mFilmFragment: FilmFragment? = null
+    private var mMovieFragment: MovieFragment? = null
     private var mHotFragment: MainFragment? = null
     private val TAG: String = "MainActivity"
 
@@ -65,16 +64,16 @@ class MainActivity : AppCompatActivity() {
                     transaction.add(R.id.fragment_container, mHotFragment)
                 } else {
                     transaction.show(mHotFragment)
-                    if (mFilmFragment != null)
-                        transaction.hide(mFilmFragment)
+                    if (mMovieFragment != null)
+                        transaction.hide(mMovieFragment)
                 }
             }
             1 -> {
-                if (mFilmFragment == null) {
-                    mFilmFragment = FilmFragment()
-                    transaction.add(R.id.fragment_container, mFilmFragment)
+                if (mMovieFragment == null) {
+                    mMovieFragment = MovieFragment()
+                    transaction.add(R.id.fragment_container, mMovieFragment)
                 } else {
-                    transaction.show(mFilmFragment)
+                    transaction.show(mMovieFragment)
                     if (mHotFragment != null)
                         transaction.hide(mHotFragment)
                 }

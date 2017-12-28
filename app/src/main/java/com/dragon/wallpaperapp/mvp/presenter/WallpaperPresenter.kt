@@ -54,7 +54,7 @@ class WallpaperPresenter : WallpaperContract.Presenter {
                 "adult" to "false",
                 "first" to "0")
         val header: Map<String, String> = mapOf(
-                "User-Agent" to "picasso,181,xiaomi")
+                "User-Agent" to "picasso,180,xiaomi")
         ApiManager.instance
                 .apiService
                 .getWallpaperForAlbum(header, album_id, map as Map<String, String>)

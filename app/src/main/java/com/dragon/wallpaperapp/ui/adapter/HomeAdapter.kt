@@ -12,7 +12,6 @@ import com.dragon.wallpaperapp.mvp.model.bean.Wallpaper
 import com.orhanobut.logger.Logger
 
 
-
 /**
  * Created by D22434 on 2017/11/30.
  */
@@ -24,6 +23,7 @@ class HomeAdapter(data: List<Wallpaper>?) : BaseQuickAdapter<Wallpaper, BaseView
         // 加载网络图片
         GlideApp.with(mContext)
                 .load(item.thumb)
+                .placeholder(R.drawable.ic_default_preview)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .transition(withCrossFade())

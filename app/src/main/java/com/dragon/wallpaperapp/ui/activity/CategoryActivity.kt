@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.view.WindowManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -16,36 +16,50 @@ import kotlinx.android.synthetic.main.activity_category.*
 
 class CategoryActivity : AppCompatActivity() {
 
+    private var id: String = ""
+    private var name: String = ""
+    private var cover: String = ""
+    private var type: String = ""
+    private var desc: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        val id: String = intent.getStringExtra("id")
-        val name = intent.getStringExtra("name")
-        val cover = intent.getStringExtra("cover")
-        val type = intent.getStringExtra("type")
+        initData()
+        initView()
+    }
+
+    private fun initData() {
+        id = intent.getStringExtra("id")
+        name = intent.getStringExtra("name")
+        cover = intent.getStringExtra("cover")
+        type = intent.getStringExtra("type")
+        desc = intent.getStringExtra("desc")
         toolbar.title = name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { _ ->
+            onBackPressed()
+        }
+    }
 
-        Log.e("TAG", "$id---$name")
+    private fun initView() {
+        if (desc != null) {
+            tv_desc.visibility = View.VISIBLE
+            tv_desc.text = desc
+        }
 
         // 加载网络图片
         GlideApp.with(this)
                 .load(cover)
+                .placeholder(R.drawable.ic_default_preview)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(image)
-
-
-        toolbar.setNavigationOnClickListener { _ ->
-            onBackPressed()
-        }
-
         tabLayout.addTab(tabLayout.newTab().setText("最新"))
         tabLayout.addTab(tabLayout.newTab().setText("最热"))
-
         viewPager.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
 
             override fun getCount(): Int {
@@ -65,9 +79,7 @@ class CategoryActivity : AppCompatActivity() {
             override fun getPageTitle(position: Int): CharSequence {
                 return mTitles[position]
             }
-
         }
-
         tabLayout.setupWithViewPager(viewPager)
     }
 

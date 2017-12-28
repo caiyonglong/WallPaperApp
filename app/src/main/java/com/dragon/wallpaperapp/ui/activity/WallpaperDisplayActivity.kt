@@ -123,6 +123,7 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
             if (mWallpapers.isNotEmpty()) {
                 GlideApp.with(context)
                         .load(mWallpapers[position].img)
+                        .placeholder(R.drawable.ic_default_preview)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .transition(DrawableTransitionOptions.withCrossFade())

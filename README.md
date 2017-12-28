@@ -31,6 +31,12 @@
  - [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
  - [MZBannerView](https://github.com/pinguo-zhouwei/MZBannerView)
  - [jsoup](https://github.com/jhy/jsoup)
+ 
+## 遇到的问题
+
+1. 使用MZBannerView，出现点击事件无反应：点击事件在set之前初始化即可
+2. 使用BaseRecyclerViewAdapterHelper，上拉加载死循环：madapter没有设置recyclerview
+...
 
 ## 声明
 

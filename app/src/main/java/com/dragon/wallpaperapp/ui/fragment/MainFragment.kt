@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
         fragments.add(WallpaperFragment.newInstance("", "new", "new"))
         fragments.add(CategoryFragment())
         fragments.add(AlbumFragment.newInstance("new"))
-        fragments.add(FilmFragment())
+        fragments.add(MovieFragment())
     }
 
     private fun initTabLayout() {

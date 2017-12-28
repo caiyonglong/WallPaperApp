@@ -21,6 +21,7 @@ class CategoryAdapter(data: List<Category>?) : BaseQuickAdapter<Category, BaseVi
         // 加载网络图片
         GlideApp.with(mContext)
                 .load(item.cover)
+                .placeholder(R.drawable.ic_default_preview)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .transition(withCrossFade())
