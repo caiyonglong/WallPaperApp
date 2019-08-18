@@ -4,8 +4,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -56,7 +56,7 @@ class MovieDetailActivity : AppCompatActivity(), MovieContract.View {
     }
 
     private fun init() {
-        rv_download.layoutManager = LinearLayoutManager(this)
+        rv_download.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         rv_download.isNestedScrollingEnabled = false
         mAdapter.bindToRecyclerView(rv_download)
         mAdapter.setEmptyView(R.layout.item_empty)

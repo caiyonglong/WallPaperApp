@@ -3,12 +3,13 @@ package com.dragon.wallpaperapp.ui.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -33,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
  * Created by D22434 on 2017/11/29.
  */
 
-class AlbumFragment : Fragment(), AlbumContract.View, BaseQuickAdapter.RequestLoadMoreListener {
+class AlbumFragment : androidx.fragment.app.Fragment(), AlbumContract.View, BaseQuickAdapter.RequestLoadMoreListener {
 
     var mPresenter: AlbumPresenter = AlbumPresenter()
     lateinit var mAdapter: AlbumAdapter
@@ -60,9 +61,9 @@ class AlbumFragment : Fragment(), AlbumContract.View, BaseQuickAdapter.RequestLo
         return inflater.inflate(R.layout.fragment_homepage, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
-        order = arguments["order"].toString()
+        order = arguments?.get("order").toString()
         initAdapter()
         mPresenter.attachView(this)
         loadData()
@@ -138,7 +139,7 @@ class AlbumFragment : Fragment(), AlbumContract.View, BaseQuickAdapter.RequestLo
                 intent.putExtra("cover", banners[position].thumb)
                 intent.putExtra("name", banners[position].name)
                 intent.putExtra("type", "album")
-                context.startActivity(intent)
+                context?.startActivity(intent)
             }
         })
         bannerView.banner.setIndicatorVisible(false)
@@ -154,13 +155,17 @@ class AlbumFragment : Fragment(), AlbumContract.View, BaseQuickAdapter.RequestLo
     inner class BannerViewHolder : MZViewHolder<Banner> {
         var mView: View? = null
         override fun onBind(p0: Context?, p1: Int, banner: Banner?) {
-            GlideApp.with(context)
-                    .load(banner?.thumb)
-                    .placeholder(R.drawable.ic_default_preview)
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(mView?.findViewById(R.id.imageView))
+            context?.let {
+                mView?.findViewById<ImageView>(R.id.imageView)?.let { view ->
+                    GlideApp.with(it)
+                            .load(banner?.thumb)
+                            .placeholder(R.drawable.ic_default_preview)
+                            .centerCrop()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .into(view)
+                }
+            }
         }
 
         override fun createView(p0: Context?): View? {
@@ -170,7 +175,7 @@ class AlbumFragment : Fragment(), AlbumContract.View, BaseQuickAdapter.RequestLo
     }
 
     override fun showError(error: String) {
-        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context.getText(R.string.load_error))
+        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context?.getText(R.string.load_error))
         Log.e("TAG", error)
 
     }

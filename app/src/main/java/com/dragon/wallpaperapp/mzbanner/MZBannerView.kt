@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.os.Handler
-import android.support.annotation.AttrRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.RequiresApi
-import android.support.annotation.StyleRes
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import androidx.annotation.AttrRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.StyleRes
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -454,7 +454,7 @@ class MZBannerView<T> : RelativeLayout {
     }
 
 
-    class MZPagerAdapter<T>(datas: List<Any>, private val mMZHolderCreator: MZHolderCreator<*>, private val canLoop: Boolean) : PagerAdapter() {
+    class MZPagerAdapter<T>(datas: List<Any>, private val mMZHolderCreator: MZHolderCreator<*>, private val canLoop: Boolean) : androidx.viewpager.widget.PagerAdapter() {
         private var mDatas: MutableList<Any>? = null
         private var mViewPager: ViewPager? = null
         private var mPageClickListener: BannerPageClickListener? = null
@@ -504,8 +504,8 @@ class MZBannerView<T> : RelativeLayout {
          */
         fun setUpViewViewPager(viewPager: ViewPager) {
             mViewPager = viewPager
-            mViewPager!!.adapter = this
-            mViewPager!!.adapter.notifyDataSetChanged()
+            mViewPager?.adapter = this
+            mViewPager?.adapter?.notifyDataSetChanged()
             val currentItem = if (canLoop) startSelectItem else 0
             //设置当前选中的Item
             mViewPager!!.currentItem = currentItem

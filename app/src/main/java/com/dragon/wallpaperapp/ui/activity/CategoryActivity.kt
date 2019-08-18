@@ -1,9 +1,9 @@
 package com.dragon.wallpaperapp.ui.activity
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.View
 import android.view.WindowManager
@@ -60,7 +60,7 @@ class CategoryActivity : AppCompatActivity() {
                 .into(image)
         tabLayout.addTab(tabLayout.newTab().setText("最新"))
         tabLayout.addTab(tabLayout.newTab().setText("最热"))
-        viewPager.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
+        viewPager.adapter = object : androidx.fragment.app.FragmentPagerAdapter(supportFragmentManager) {
 
             override fun getCount(): Int {
                 return mTitles.size
@@ -68,7 +68,7 @@ class CategoryActivity : AppCompatActivity() {
 
             private val mTitles = arrayOf("最新", "最热")
 
-            override fun getItem(position: Int): Fragment {
+            override fun getItem(position: Int): androidx.fragment.app.Fragment {
                 return if (position == 0) {
                     WallpaperFragment.newInstance(id, "new", type)
                 } else {

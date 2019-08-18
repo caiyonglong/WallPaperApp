@@ -2,8 +2,8 @@ package com.dragon.wallpaperapp.ui.fragment;
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_recyclerview.*
  * Created by D22434 on 2017/11/28.
  */
 
-class CategoryFragment : Fragment(), CategoryContract.View {
+class CategoryFragment : androidx.fragment.app.Fragment(), CategoryContract.View {
 
     private var mPresenter: CategoryPresenter = CategoryPresenter()
     private lateinit var mAdapter: CategoryAdapter
@@ -32,9 +32,9 @@ class CategoryFragment : Fragment(), CategoryContract.View {
         return inflater.inflate(R.layout.fragment_recyclerview, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
-        recyclerView.layoutManager = GridLayoutManager(activity, 2)
+        recyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(activity, 2)
         initAdapter()
         mPresenter.attachView(this)
         mPresenter.getCategory()
@@ -66,7 +66,7 @@ class CategoryFragment : Fragment(), CategoryContract.View {
     }
 
     override fun showError(error: String) {
-        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context.getText(R.string.load_error))
+        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context?.getText(R.string.load_error))
     }
 
 

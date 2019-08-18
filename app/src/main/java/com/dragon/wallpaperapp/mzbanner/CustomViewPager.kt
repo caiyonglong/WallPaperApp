@@ -1,7 +1,7 @@
 package com.dragon.wallpaperapp.mzbanner
 
 import android.content.Context
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.util.SparseArray
 import android.view.View
@@ -11,7 +11,7 @@ import java.util.*
  * Created by zhouwei on 17/8/16.
  */
 
-class CustomViewPager : ViewPager {
+class CustomViewPager : androidx.viewpager.widget.ViewPager {
     private val childCenterXAbs = ArrayList<Int>()
     private val childIndex = SparseArray<Int>()
 

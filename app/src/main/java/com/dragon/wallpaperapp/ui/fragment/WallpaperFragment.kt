@@ -3,8 +3,8 @@ package com.dragon.wallpaperapp.ui.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +25,7 @@ import java.util.*
  * Created by D22434 on 2017/11/29.
  */
 
-class WallpaperFragment : Fragment(), WallpaperContract.View, BaseQuickAdapter.RequestLoadMoreListener {
+class WallpaperFragment : androidx.fragment.app.Fragment(), WallpaperContract.View, BaseQuickAdapter.RequestLoadMoreListener {
 
     private var mPresenter: WallpaperPresenter = WallpaperPresenter()
     private lateinit var mAdapter: HomeAdapter
@@ -55,7 +55,7 @@ class WallpaperFragment : Fragment(), WallpaperContract.View, BaseQuickAdapter.R
         return inflater.inflate(R.layout.fragment_recyclerview, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view!!, savedInstanceState)
 
         initData()
@@ -79,9 +79,9 @@ class WallpaperFragment : Fragment(), WallpaperContract.View, BaseQuickAdapter.R
     }
 
     private fun initData() {
-        type = arguments["type"].toString()
-        id = arguments["id"].toString()
-        order = arguments["order"].toString()
+        type = arguments?.get("type").toString()
+        id = arguments?.get("id").toString()
+        order = arguments?.get("order").toString()
         mPresenter.attachView(this)
     }
 
@@ -128,7 +128,7 @@ class WallpaperFragment : Fragment(), WallpaperContract.View, BaseQuickAdapter.R
     }
 
     override fun showError(error: String) {
-        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context.getText(R.string.load_error))
+        mAdapter.emptyView.findViewById<LoadingView>(R.id.loading_view).setLoadingText(context?.getText(R.string.load_error))
         Logger.d(error)
     }
 

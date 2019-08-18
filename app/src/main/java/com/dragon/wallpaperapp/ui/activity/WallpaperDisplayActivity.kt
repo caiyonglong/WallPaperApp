@@ -3,10 +3,10 @@ package com.dragon.wallpaperapp.ui.activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +46,7 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
     private fun initViewPager() {
         viewPager.offscreenPageLimit = 4
         viewPager.adapter = MyPageAdapter(this)
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -95,24 +95,24 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
     override fun preViewWallpaper(mBitmap: Bitmap) {
     }
 
-    inner class MyPageAdapter(var context: Context? = null) : PagerAdapter() {
+    inner class MyPageAdapter(var context: Context? = null) : androidx.viewpager.widget.PagerAdapter() {
 
         override fun getCount(): Int {
             return mWallpapers.size
         }
 
-        override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
-            container!!.removeView(`object` as View)
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            container?.removeView(`object` as View)
         }
 
-        override fun isViewFromObject(view: View?, `object`: Any?): Boolean {
+        override fun isViewFromObject(view: View, `object`: Any): Boolean {
             return view == `object`
         }
 
-        override fun instantiateItem(container: ViewGroup, position: Int): View? {
+        override fun instantiateItem(container: ViewGroup, position: Int): View {
             val view = getView(position, container)
             container.addView(view)
-            return view
+            return view!!
         }
 
 
@@ -121,13 +121,15 @@ class WallpaperDisplayActivity : AppCompatActivity(), WallpaperDisplayContract.V
             val holder = LayoutInflater.from(context).inflate(R.layout.wp_image, null)
             // create View
             if (mWallpapers.isNotEmpty()) {
-                GlideApp.with(context)
-                        .load(mWallpapers[position].img)
-                        .placeholder(R.drawable.ic_default_preview)
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(holder?.findViewById(R.id.cropView))
+                context?.let {
+                    GlideApp.with(it)
+                            .load(mWallpapers[position].img)
+                            .placeholder(R.drawable.ic_default_preview)
+                            .centerCrop()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .into(holder?.findViewById(R.id.cropView)!!)
+                }
             }
             return holder
         }

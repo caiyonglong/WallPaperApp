@@ -1,7 +1,7 @@
 package com.dragon.wallpaperapp.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
@@ -61,21 +61,31 @@ class MainActivity : AppCompatActivity() {
             0 -> {
                 if (mHotFragment == null) {
                     mHotFragment = MainFragment()
-                    transaction.add(R.id.fragment_container, mHotFragment)
+                    mHotFragment?.let {
+                        transaction.add(R.id.fragment_container, it)
+                    }
                 } else {
-                    transaction.show(mHotFragment)
-                    if (mMovieFragment != null)
-                        transaction.hide(mMovieFragment)
+                    mHotFragment?.let {
+                        transaction.show(it)
+                    }
+                    mMovieFragment?.let {
+                        transaction.hide(it)
+                    }
                 }
             }
             1 -> {
                 if (mMovieFragment == null) {
                     mMovieFragment = MovieFragment()
-                    transaction.add(R.id.fragment_container, mMovieFragment)
+                    mMovieFragment?.let {
+                        transaction.add(R.id.fragment_container, it)
+                    }
                 } else {
-                    transaction.show(mMovieFragment)
-                    if (mHotFragment != null)
-                        transaction.hide(mHotFragment)
+                    mHotFragment?.let {
+                        transaction.hide(it)
+                    }
+                    mMovieFragment?.let {
+                        transaction.show(it)
+                    }
                 }
             }
         }

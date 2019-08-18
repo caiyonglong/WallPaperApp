@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Message
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import android.widget.Toast
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.dragon.wallpaperapp.api.GlideApp
@@ -87,10 +89,13 @@ class WallpaperDisplayPresenter : WallpaperDisplayContract.Presenter {
                 .asBitmap()
                 .load(currentImg)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>) {
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         mBitmap = resource
                         TaskThread(which).start()
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
                     }
                 })
     }

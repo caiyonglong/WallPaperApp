@@ -1,15 +1,15 @@
 package com.dragon.wallpaperapp.ui.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 
 /**
  * Created by D22434 on 2017/12/25.
  */
-class ViewPagerAdapter(fm: FragmentManager?, var titles: Array<String>, var fragments: List<Fragment>) : FragmentPagerAdapter(fm) {
+class ViewPagerAdapter(fm: androidx.fragment.app.FragmentManager?, var titles: Array<String>, var fragments: List<androidx.fragment.app.Fragment>) : androidx.fragment.app.FragmentPagerAdapter(fm) {
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         return fragments[position]
     }
 
